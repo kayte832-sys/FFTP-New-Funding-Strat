@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FFTP Jamaica — New Investment Strategy Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            navy: { 50:'#f0f4f8', 100:'#dce5ef', 200:'#b9cce0', 300:'#8faec8', 400:'#5d8aad', 500:'#3a6a8f', 600:'#1a3a5c', 700:'#142e4a', 800:'#0f2238', 900:'#0a1726' },
+            gold: { 50:'#fdf8eb', 100:'#faeec5', 200:'#f5dc8a', 300:'#efc94e', 400:'#d4a017', 500:'#b8860b', 600:'#956b08', 700:'#725106', 800:'#4e3804', 900:'#2b1f02' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --navy: #1a3a5c;
+      --navy-dark: #0f2238;
+      --navy-light: #2e6da4;
+      --gold: #d4a017;
+      --gold-dark: #b8860b;
+      --white: #ffffff;
+      --bg: #f9fafb;
+      --text: #111827;
+      --text-sec: #6b7280;
+      --border: #e5e7eb;
+      --housing: #1a3a5c;
+      --wash: #2563eb;
+      --food: #16a34a;
+      --livelihood: #d4a017;
+      --infra: #7c3aed;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); padding-top: 160px; }
+
+    .header-fixed { position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
+    .tab-strip { background: var(--white); border-bottom: 1px solid var(--border); }
+    .tab-btn { padding: 10px 24px; font-weight: 600; font-size: 0.8125rem; border: none; cursor: pointer; transition: all 0.15s; border-bottom: 3px solid transparent; background: transparent; color: #4b5563; letter-spacing: 0.01em; }
+    .tab-btn.active { background: var(--navy); color: var(--white); border-bottom-color: var(--gold); }
+    .tab-btn:not(.active):hover { border-bottom-color: var(--navy); color: var(--navy); }
+
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+
+    .dot { display: inline-flex; align-items: center; justify-content: center; border-radius: 9999px; font-weight: 700; color: white; font-size: 11px; min-width: 26px; height: 26px; padding: 0 6px; }
+
+    .tier-badge-critical { background: #fef2f2; color: #b91c1c; }
+    .tier-badge-high { background: #fff7ed; color: #c2410c; }
+    .tier-badge-medium { background: #fefce8; color: #a16207; }
+    .tier-badge-low { background: #f0fdf4; color: #15803d; }
+
+    .gap-badge-critical { background: #fef2f2; color: #b91c1c; font-weight: 600; font-size: 11px; padding: 2px 10px; border-radius: 9999px; }
+    .gap-badge-high { background: #fff7ed; color: #c2410c; font-weight: 600; font-size: 11px; padding: 2px 10px; border-radius: 9999px; }
+    .gap-badge-moderate { background: #fefce8; color: #a16207; font-weight: 600; font-size: 11px; padding: 2px 10px; border-radius: 9999px; }
+    .gap-badge-ontrack { background: #f0fdf4; color: #15803d; font-weight: 600; font-size: 11px; padding: 2px 10px; border-radius: 9999px; }
+
+    .restrict-badge-full { background: #fef2f2; color: #b91c1c; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 9999px; }
+    .restrict-badge-partial { background: #fefce8; color: #a16207; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 9999px; }
+    .restrict-badge-mixed { background: #fff7ed; color: #c2410c; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 9999px; }
+    .restrict-badge-flexible { background: #f0fdf4; color: #15803d; font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 9999px; }
+
+    .finding-card { border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+
+    .dir-improve { background: #f0fdf4; color: #15803d; font-weight: 600; font-size: 10px; padding: 2px 10px; border-radius: 9999px; }
+    .dir-correct { background: #f0fdf4; color: #15803d; font-weight: 600; font-size: 10px; padding: 2px 10px; border-radius: 9999px; }
+    .dir-slight { background: #fffbeb; color: #a16207; font-weight: 600; font-size: 10px; padding: 2px 10px; border-radius: 9999px; }
+    .dir-worsen { background: #fef2f2; color: #b91c1c; font-weight: 600; font-size: 10px; padding: 2px 10px; border-radius: 9999px; }
+    .dir-same { background: #f3f4f6; color: #6b7280; font-weight: 600; font-size: 10px; padding: 2px 10px; border-radius: 9999px; }
+
+    .metric-toggle-active { background: #1a3a5c !important; color: white !important; }
+    .metric-toggle-inactive { background: white !important; color: #1a3a5c !important; border: 1.5px solid #1a3a5c; }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { padding-top: 0; background: white; }
+      .header-fixed { position: relative; }
+      .tab-panel { display: block !important; page-break-before: always; }
+      .tab-panel.hidden { display: block !important; }
+      .card { box-shadow: none; break-inside: avoid; }
+    }
+    @media (max-width: 767px) {
+      body { padding-top: 160px; }
+      .tab-btn { padding: 8px 10px; font-size: 0.65rem; }
+    }
+  </style>
+</head>
+<body data-id="0">
+  <app-icon data-id="1" hidden data-icon="bar-chart-3" data-palette="Blue"></app-icon>
+
+  <!-- FIXED HEADER -->
+  <div data-id="2" class="header-fixed">
+    <header data-id="3" id="header-main-a1b2" style="background:var(--navy);color:white;" class="px-4 md:px-8 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-1">
+      <div data-id="4" id="header-left-c3d4">
+        <h1 data-id="5" id="title-main-e5f6" class="text-base md:text-lg font-bold tracking-tight">FFTP Jamaica</h1>
+        <p data-id="6" id="subtitle-main-g7h8" class="text-xs" style="color:#b9cce0;">New Investment Strategy Dashboard · Where New Donations Should Go</p>
+      </div>
+      <div data-id="7" id="header-right-i9j0" class="text-xs md:text-right" style="color:#b9cce0;">
+        <span data-id="8">IO Dashboard · 17 September 2026</span><br data-id="9" />
+        <span data-id="10">New Funding Strategy · Fundraising & Donor Relations · 17 September 2026</span>
+      </div>
+    </header>
+    <div data-id="11" style="background:#fffbeb;border-bottom:2px solid #fde68a;padding:0.5rem 2rem;display:flex;align-items:flex-start;gap:0.75rem;flex-wrap:nowrap;">
+      <span data-id="12" style="font-size:0.75rem;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.06em;">Purpose</span>
+      <span data-id="13" style="font-size:0.78rem;color:#78350f;line-height:1.4;">This dashboard governs <strong data-id="14">new, uncommitted donation decisions only</strong>. Projects already underway are being completed through existing donor commitments and are not subject to reallocation. The data shown identifies where new funding will achieve the greatest impact against the most vulnerable populations, as ranked by the NVI.</span>
+    </div>
+    <nav data-id="15" id="tab-strip-k1l2" class="tab-strip px-4 md:px-8 flex gap-0 no-print overflow-x-auto" role="tablist">
+      <button data-id="16" class="tab-btn active" data-tab="parish" role="tab" aria-selected="true">Parish Alignment</button>
+      <button data-id="17" class="tab-btn" data-tab="sector" role="tab" aria-selected="false">Sector Alignment</button>
+      <button data-id="18" class="tab-btn" data-tab="earmark" role="tab" aria-selected="false">Investment Gaps</button>
+      <button data-id="19" class="tab-btn" data-tab="scatter" role="tab" aria-selected="false">Where Current Delivery Falls Short</button>
+      <button data-id="20" class="tab-btn" data-tab="alloc" role="tab" aria-selected="false">New Investment Allocation</button>
+    </nav>
+  </div>
+
+  <!-- MAIN -->
+  <main data-id="21" id="main-content-m3n4" class="max-w-7xl mx-auto px-4 md:px-8 py-6">
+
+    <!-- ═══════════════ TAB 1: PARISH ALIGNMENT ═══════════════ -->
+    <section data-id="22" id="panel-parish" class="tab-panel">
+      <div data-id="23" id="parish-header-o5p6" class="mb-6" style="padding-top:1rem;">
+        <h2 data-id="24" id="parish-title-q7r8" class="text-xl md:text-2xl font-bold" style="color:var(--navy);">Are We Delivering Where Need Is Greatest?</h2>
+        <p data-id="25" id="parish-subtitle-s9t0" class="text-sm mt-1" style="color:var(--text-sec);">This tab answers a critical question: are the people most severely affected by Hurricane Melissa the same people FFTP Jamaica's programmes are reaching? To answer it accurately, this dashboard uses two complementary metrics. The primary metric — People Reached — converts each type of intervention into an estimated number of people benefiting, using internationally-standardised conversion factors (SPHERE 2018, FFTP Jamaica household standard, MOE Jamaica). A water system reaching 300 people counts for more than a roof repair reaching 3 people (Jamaica average household size). The secondary metric — Units Delivered — shows the raw count of interventions for operational transparency. Use the toggle to switch between views. The NVI-Ideal column shows what each parish's share of total people reached should be, based on its vulnerability score. Red gaps are under-served parishes — priority targets for new unrestricted donations.</p>
+      </div>
+
+      <!-- SUMMARY CARDS -->
+      <div data-id="26" id="parish-summary-u1v2" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div data-id="27" id="summary-card1-w3x4" class="card p-5" style="background:#fef2f2;border-color:#fecaca;">
+          <p data-id="28" class="text-3xl font-extrabold tabular-nums" style="color:#dc2626;" id="summary-headline-1">73.1%</p>
+          <p data-id="29" class="text-sm font-semibold mt-1" style="color:#991b1b;">of estimated people reached are in just two parishes — St. Elizabeth (~5,220) and Westmoreland (~11,527)</p>
+          <p data-id="30" class="text-xs mt-1" style="color:#b91c1c;">St. Ann, a Medium-tier parish with 8 water systems, reaches an estimated 2,821 people — more than Trelawny (1,385) and Hanover (858) combined, despite both being Critical-tier. Unit counts completely obscure this imbalance.</p>
+        </div>
+        <div data-id="31" id="summary-card2-y5z6" class="card p-5" style="background:#fffbeb;border-color:#fde68a;">
+          <p data-id="32" class="text-3xl font-extrabold tabular-nums" style="color:#d97706;">5 <span data-id="33" class="text-base font-semibold">Under-Served</span></p>
+          <p data-id="34" class="text-sm font-semibold mt-1" style="color:#92400e;">parishes are currently under-served relative to how severely they were affected</p>
+          <p data-id="35" class="text-xs mt-1" style="color:#b45309;">Critically, Hanover (NVI 9.00, 2nd most vulnerable) reaches an estimated 858 people — fewer than Manchester (500) and St. Ann (2,821), both lower-NVI parishes. This is only visible when measuring people reached, not units.</p>
+        </div>
+        <div data-id="36" id="summary-card3-a7b8" class="card p-5" style="background:#eff6ff;border-color:#bfdbfe;">
+          <p data-id="37" class="text-3xl font-extrabold tabular-nums" style="color:var(--navy);" id="summary-headline-3">—</p>
+          <p data-id="38" class="text-sm font-semibold mt-1" style="color:#1e3a5f;">estimated people reached across all 11 assigned parishes (people-reached metric)</p>
+          <p data-id="39" class="text-xs mt-1" style="color:#3b82f6;">Unit counts show 969 units. But because water systems reach 300 people each, Westmoreland's 31 water systems alone account for nearly half the portfolio's people-reached total. This is why units is a misleading primary metric.</p>
+        </div>
+      </div>
+
+      <!-- COVERAGE RATE SUMMARY CALLOUT -->
+      <div data-id="40" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1rem;">
+        <div data-id="41" style="background:#fee2e2;border-radius:8px;padding:0.85rem 1rem;border-left:4px solid #dc2626;">
+          <p data-id="42" style="font-size:1.4rem;font-weight:800;color:#7f1d1d;margin:0;">0.3%</p>
+          <p data-id="43" style="font-size:0.75rem;font-weight:600;color:#7f1d1d;margin:0.2rem 0 0.3rem 0;">St. James Coverage Rate</p>
+          <p data-id="44" style="font-size:0.7rem;color:#991b1b;margin:0;">484 people reached of 188,656 in need. NVI 7.75 — High tier. Single largest coverage gap in portfolio.</p>
+        </div>
+        <div data-id="45" style="background:#fef3c7;border-radius:8px;padding:0.85rem 1rem;border-left:4px solid #d97706;">
+          <p data-id="46" style="font-size:1.4rem;font-weight:800;color:#78350f;margin:0;">1.3%</p>
+          <p data-id="47" style="font-size:0.75rem;font-weight:600;color:#78350f;margin:0.2rem 0 0.3rem 0;">Hanover Coverage Rate</p>
+          <p data-id="48" style="font-size:0.7rem;color:#92400e;margin:0;">858 people reached of 64,198 in need. NVI 9.00 — Critical tier. Zero water systems despite critical WASH failure.</p>
+        </div>
+        <div data-id="49" style="background:#dcfce7;border-radius:8px;padding:0.85rem 1rem;border-left:4px solid #16a34a;">
+          <p data-id="50" style="font-size:1.4rem;font-weight:800;color:#14532d;margin:0;">8.6%</p>
+          <p data-id="51" style="font-size:0.75rem;font-weight:600;color:#14532d;margin:0.2rem 0 0.3rem 0;">Westmoreland Coverage Rate</p>
+          <p data-id="52" style="font-size:0.7rem;color:#166534;margin:0;">11,527 people reached of 134,509 in need. NVI 9.48 — highest in portfolio. 31 water systems drive coverage.</p>
+        </div>
+      </div>
+
+      <!-- METRIC TOGGLE -->
+      <div data-id="53" id="metric-toggle-wrap" style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+        <span data-id="54" style="font-size:0.75rem;font-weight:700;color:#1a3a5c;text-transform:uppercase;letter-spacing:0.05em;">View by:</span>
+        <button data-id="55" id="btn-people" style="font-size:0.75rem;padding:0.35rem 0.9rem;border-radius:999px;border:none;cursor:pointer;background:#1a3a5c;color:white;font-weight:600;">👥 People Reached</button>
+        <button data-id="56" id="btn-units" style="font-size:0.75rem;padding:0.35rem 0.9rem;border-radius:999px;border:1.5px solid #1a3a5c;cursor:pointer;background:white;color:#1a3a5c;font-weight:600;">📦 Units Delivered</button>
+        <button data-id="57" id="btn-coverage" style="font-size:0.75rem;padding:0.35rem 0.9rem;border-radius:999px;border:1.5px solid #16a34a;cursor:pointer;background:white;color:#16a34a;font-weight:600;">📊 Coverage Rate</button>
+        <span data-id="58" id="metric-note" style="font-size:0.7rem;color:#6b7280;font-style:italic;">Estimated using SPHERE and Jamaica-specific conversion factors. Water system = 300 people · Roof repair = 3 people (Jamaica household) · Food kit = 3 people per kit, per month · School = 100 students + staff</span>
+      </div>
+
+      <!-- METHODOLOGY NOTE -->
+      <div data-id="59" style="background:#f0f4f8;border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.75rem;border-left:3px solid #1a3a5c;font-size:0.75rem;color:#374151;">
+        <strong data-id="60" style="color:#1a3a5c;">Why two metrics?</strong> "Units" counts a water system and a roof repair as equal — but a water system serves ~300 people while a roof repair serves one household of ~3 people (Jamaica average). <strong data-id="61">People Reached</strong> (recommended primary view) corrects this by applying internationally-standardised conversion factors from SPHERE (water), FFTP Jamaica household standard (3 persons), and MOE Jamaica (schools). Toggle between both views to see how the story changes. The gap column shows how far each parish's actual share of delivery deviates from its NVI-ideal share — red means under-served, amber means over-served.
+      </div>
+
+      <!-- PARISH ALIGNMENT TABLE -->
+      <div data-id="62" id="parish-table-wrap-c9d0" class="card overflow-x-auto mb-6">
+        <div data-id="63" style="overflow-x:auto;width:100%;">
+          <table data-id="64" id="parish-table-e1f2" class="w-full text-xs">
+            <thead data-id="65">
+              <tr data-id="66" style="background:#f0f4f8;">
+                <th data-id="67" class="text-left py-3 px-3 font-semibold" style="color:#1a3a5c;white-space:nowrap;">Parish</th>
+                <th data-id="68" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;">NVI</th>
+                <th data-id="69" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;">Tier</th>
+                <th data-id="70" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;white-space:nowrap;">Population<br data-id="71"><span data-id="72" style="font-size:0.65rem;font-weight:400;color:#6b7280;">STATIN 2022</span></th>
+                <th data-id="73" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;white-space:nowrap;">People in Need<br data-id="74"><span data-id="75" style="font-size:0.65rem;font-weight:400;color:#6b7280;">Est. · see source</span></th>
+                <th data-id="76" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;">Conf.</th>
+                <th data-id="77" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;">NVI-Ideal %</th>
+                <th data-id="78" id="col-metric-label" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;">👥 People Reached</th>
+                <th data-id="79" id="col-share-label" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;">Actual Share %</th>
+                <th data-id="80" id="col-gap-label" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;">Gap (pp)</th>
+                <th data-id="81" class="text-center py-3 px-2 font-semibold" style="color:#1a3a5c;">Status</th>
+              </tr>
+            </thead>
+            <tbody data-id="82" id="parish-tbody-g3h4"></tbody>
+          </table>
+        </div>
+        <!-- Data sources footnote -->
+        <div data-id="83" style="margin-top:0.75rem;padding:0.75rem 1rem;background:#f9fafb;border-radius:6px;border:1px solid #e5e7eb;font-size:0.72rem;color:#6b7280;">
+          <strong data-id="84" style="color:#374151;">Population & People-in-Need Sources:</strong>
+          Population — STATIN 2022 Population Census (all 11 parishes listed). &nbsp;·&nbsp;
+          <span data-id="85" style="color:#16a34a;font-weight:700;">🟢 High confidence:</span> IOM Flash Appeal, Jamaica — Hurricane Melissa, 5 November 2025 (Westmoreland, Hanover, St. Elizabeth, Trelawny, St. James). &nbsp;·&nbsp;
+          <span data-id="86" style="color:#d97706;font-weight:700;">🟡 Medium confidence:</span> WFP Food Security Two Months On, December 2025 — parish-level insufficient consumption and rCSI rates applied as proxy weights (Clarendon, Manchester, St. Mary, St. Ann). &nbsp;·&nbsp;
+          <span data-id="87" style="color:#2563eb;font-weight:700;">🔵 Proxy estimate:</span> National residual distribution anchored to OCHA/PAHO 1.6M affected figure (St. Catherine, Kingston/St. Andrew). &nbsp;·&nbsp;
+          <strong data-id="88" style="color:#dc2626;">Recovery note:</strong> WFP Eight Months On (June 2026) confirms insufficient food consumption and food-based coping worsened between months 4 and 8. Need figures are not overstated at September 2026.
+        </div>
+      </div>
+
+      <!-- KEY FINDINGS -->
+      <div data-id="89" id="parish-findings-wrap" class="card p-5 mb-6">
+        <h3 data-id="90" class="text-sm font-bold mb-4" style="color:var(--navy);">What the Data Shows — Four Things to Understand About Current Delivery</h3>
+        <div data-id="91" class="finding-card" style="background:#fef2f2;border-left:4px solid #dc2626;">
+          <p data-id="92" class="text-xs font-bold mb-1" style="color:#991b1b;">🔴 ST. ELIZABETH IS RECEIVING FAR MORE THAN ITS VULNERABILITY SCORE WARRANTS</p>
+          <p data-id="93" class="text-xs leading-relaxed" style="color:#7f1d1d;">St. Elizabeth has received 360 of FFTP's 969 confirmed-parish units — that is 37.2% of everything delivered so far. But its NVI vulnerability score of 8.70 means it should ideally receive around 11.2% of delivery. This concentration is driven by 202 livelihood programme participants and 121 housing repairs, most of which came through Year One donor designations. St. Elizabeth is an important parish — but new funding should be redirected toward parishes with greater unmet need.</p>
+        </div>
+        <div data-id="94" class="finding-card" style="background:#fffbeb;border-left:4px solid #d97706;">
+          <p data-id="95" class="text-xs font-bold mb-1" style="color:#92400e;">🟡 TRELAWNY LOOKS SERVED ON PAPER — BUT ONE PROJECT TELLS THE WHOLE STORY</p>
+          <p data-id="96" class="text-xs leading-relaxed" style="color:#78350f;">When you count projects, Trelawny looks under-served. When you count the actual number of units delivered, it appears over-allocated — but that is almost entirely due to a single 184-unit housing repair project. Outside of housing, Trelawny has only 2 water systems and 2 school buildings confirmed. It is a Critical-tier parish (NVI 8.18) whose apparent coverage masks major sectoral gaps. Roof repairs alone do not constitute a full recovery response.</p>
+        </div>
+        <div data-id="97" class="finding-card" style="background:#f0fdf4;border-left:4px solid #16a34a;">
+          <p data-id="98" class="text-xs font-bold mb-1" style="color:#166534;">⚠️ HANOVER APPEARS ALIGNED — BUT ONLY BECAUSE OF HOUSING. WASH AND FOOD ARE NEAR-ZERO.</p>
+          <p data-id="99" class="text-xs leading-relaxed" style="color:#14532d;">Hanover is Jamaica's second most vulnerable parish, with an NVI score of 9.00 — meaning it suffered near-maximum damage across disaster exposure, water infrastructure, and food security. On the surface, its total unit count looks close to what the NVI would suggest. But almost all of that is housing repairs. Hanover has zero confirmed water systems and only 1 confirmed monthly food kit distributed. For a parish whose water infrastructure was critically compromised by Hurricane Melissa, this is one of the most urgent gaps in the entire portfolio. New funding directed to Hanover should prioritise WASH and livelihoods, not housing.</p>
+        </div>
+        <div data-id="100" class="finding-card" style="background:#fff7ed;border-left:4px solid #ea580c;">
+          <p data-id="101" class="text-xs font-bold mb-1" style="color:#c2410c;">⚠️ MORE THAN 6,000 UNITS HAVE NO CONFIRMED PARISH — THIS ANALYSIS ONLY SHOWS PART OF THE PICTURE</p>
+          <p data-id="102" class="text-xs leading-relaxed" style="color:#9a3412;">805 housing repairs (60% of FFTP's housing target) and 5,249 food security kits — each representing one family of three fed for one month — have not yet been assigned to a confirmed parish. Until they are, this tab can only show alignment for the 969 units where a parish is known. This is the single most important data task in the portfolio — assigning these units to parishes will change the alignment picture significantly and unlock the final new investment allocation recommendations. This is being actively resolved by the programme team.</p>
+        </div>
+      </div>
+
+      <!-- PARISH × SECTOR MATRIX -->
+      <div data-id="103" id="parish-matrix-wrap-i5j6" class="card overflow-x-auto">
+        <h3 data-id="104" id="matrix-title-k7l8" class="text-sm font-semibold px-4 pt-4 pb-1" style="color:var(--navy);">What Is Being Delivered in Each Parish — Breakdown by Sector</h3>
+        <p data-id="105" class="text-[11px] px-4 pb-2" style="color:var(--text-sec);">Each cell shows how many units of each type FFTP has confirmed in that parish: housing repairs (roofs), water systems, monthly food kits distributed (each kit feeds a family of 3 for one month), livelihood programme participants (small business grants, training, agricultural inputs), and school buildings repaired. A blank or zero cell in a high-NVI parish is a signal of unmet need and a potential area for new investment.</p>
+        <div data-id="106" style="overflow-x:auto;width:100%;">
+        <table data-id="107" id="parish-matrix-m9n0" class="w-full text-xs">
+          <thead data-id="108">
+            <tr data-id="109" style="background:#f3f4f6;">
+              <th data-id="110" class="text-left py-2.5 px-3 font-semibold">Parish</th>
+              <th data-id="111" class="text-center py-2.5 px-2 font-semibold">🏠 Housing Units</th>
+              <th data-id="112" class="text-center py-2.5 px-2 font-semibold">💧 Water Systems</th>
+              <th data-id="113" class="text-center py-2.5 px-2 font-semibold">🌾 Food Kits</th>
+              <th data-id="114" class="text-center py-2.5 px-2 font-semibold">💼 Livelihood Part.</th>
+              <th data-id="115" class="text-center py-2.5 px-2 font-semibold">🏫 Buildings</th>
+              <th data-id="116" class="text-center py-2.5 px-2 font-semibold">Total</th>
+            </tr>
+          </thead>
+          <tbody data-id="117" id="matrix-tbody-o1p2"></tbody>
+        </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ TAB 2: SECTOR ALIGNMENT ═══════════════ -->
+    <section data-id="118" id="panel-sector" class="tab-panel hidden">
+      <div data-id="119" id="sector-header-q3r4" class="mb-6" style="padding-top:1rem;">
+        <h2 data-id="120" id="sector-title-s5t6" class="text-xl md:text-2xl font-bold" style="color:var(--navy);">Are We Delivering the Right Types of Support — and Enough of It?</h2>
+        <p data-id="121" id="sector-subtitle-u7v8" class="text-sm mt-1" style="color:var(--text-sec);">Each of FFTP Jamaica's five sectors — Housing, Water & Sanitation (WASH), Food Security, Livelihoods, and Infrastructure — has its own vulnerability score from the NVI and its own delivery completion rate. This tab asks whether the sectors with the greatest need are the sectors receiving the most attention. The Gap Score shown on each card combines both signals: a high NVI score plus a low completion rate produces a high Gap Score — meaning that sector needs urgent new investment. Note: completion rates here are calculated from confirmed parish-level delivery only. Food security and housing carry significant unassigned volumes (see Tab 5), so their completion rates appear lower than the full-portfolio picture.</p>
+      </div>
+
+      <!-- PARISH-ASSIGNED CAVEAT -->
+      <div data-id="122" class="rounded-xl p-4 mb-6" style="background:#fffbeb;border:1px solid #fde68a;">
+        <p data-id="123" class="text-xs leading-relaxed" style="color:#92400e;">
+          <i data-id="124" data-lucide="alert-triangle" class="w-4 h-4 inline -mt-0.5 mr-1"></i>
+          <strong data-id="125">This tab calculates completion using only units with a confirmed parish location</strong> — 969 of 3,970 total units. Food security is the most affected: only 27 of 5,276 monthly food kits (each feeding a family of 3 for one month) have been assigned to a parish. Housing is also affected: 538 of 1,343 roof repairs have a confirmed parish. Full-portfolio completion rates are shown in parentheses on each card where the gap is significant.
+        </p>
+      </div>
+
+      <!-- GAP SCORE CARDS -->
+      <div data-id="126" id="sector-gap-cards-w9x0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6"></div>
+
+      <!-- SECTOR EXPANDED CARDS -->
+      <div data-id="127" id="sector-expanded-a1b2" class="space-y-4 mb-6"></div>
+
+      <!-- STACKED BAR: PROJECT STATUS -->
+      <div data-id="128" id="sector-status-wrap-c3d4" class="card p-4 md:p-6">
+        <h3 data-id="129" id="status-title-e5f6" class="text-sm font-semibold mb-1" style="color:var(--navy);">How Far Along Is Each Sector? — Project Status Breakdown</h3>
+        <p data-id="130" id="status-sub-g7h8" class="text-xs mb-4" style="color:var(--text-sec);">193 active projects across 5 sectors. Green = fully delivered. Blue = underway and will be completed through existing commitments. Grey = approved and funded but not yet started — these are the projects most relevant to Year Two new investment planning.</p>
+        <div data-id="131" id="status-bars-i9j0" class="space-y-3"></div>
+        <div data-id="132" id="status-legend-k1l2" class="flex flex-wrap items-center gap-5 mt-4 text-xs" style="color:var(--text-sec);">
+          <span data-id="133" class="flex items-center gap-1.5"><span data-id="134" class="inline-block w-3 h-3 rounded-sm" style="background:#16a34a;"></span>Completed</span>
+          <span data-id="135" class="flex items-center gap-1.5"><span data-id="136" class="inline-block w-3 h-3 rounded-sm" style="background:#60a5fa;"></span>In Progress</span>
+          <span data-id="137" class="flex items-center gap-1.5"><span data-id="138" class="inline-block w-3 h-3 rounded-sm" style="background:#e5e7eb;"></span>Not Started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ TAB 3: INVESTMENT GAPS ═══════════════ -->
+    <section data-id="139" id="panel-earmark" class="tab-panel hidden">
+      <div data-id="140" id="earmark-header-m3n4" class="mb-6" style="padding-top:1rem;">
+        <h2 data-id="141" id="earmark-title-o5p6" class="text-xl md:text-2xl font-bold" style="color:var(--navy);">How Donor Funding Is Structured — and Where the Gaps Are</h2>
+        <p data-id="142" id="earmark-subtitle-q7r8" class="text-sm mt-1" style="color:var(--text-sec);">FFTP Jamaica has raised $9.03 million for Hurricane Melissa recovery — a substantial achievement. But not all funding is equal in flexibility: 57.4% is restricted to specific projects or geographies chosen by the donor, and 42.6% is unrestricted, allowing FFTP to direct it where the NVI says need is greatest. This tab shows how donor designations have shaped the portfolio, where the alignment between donor intent and community vulnerability is strong, and where gaps remain that new, flexible funding can close.</p>
+        <p data-id="143" style="font-size:0.8rem;color:#374151;margin-bottom:1rem;padding:0.75rem 1rem;background:#f0f4f8;border-radius:6px;border-left:3px solid #1a3a5c;margin-top:0.75rem;">Year One delivery was shaped by donor designations — when a donor specifies a parish, programming follows that designation regardless of NVI ranking. This is appropriate for restricted funding. The data below shows where those designations have left gaps against the highest-need populations. Each row is an investment opportunity for new, unrestricted donations.</p>
+      </div>
+
+      <!-- FUNDING OVERVIEW -->
+      <div data-id="144" id="funding-overview-s9t0" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div data-id="145" id="fund-card1-u1v2" class="rounded-xl p-5 text-center" style="background:var(--navy);color:white;">
+          <p data-id="146" class="text-3xl font-extrabold tabular-nums">$9.03M</p>
+          <p data-id="147" class="text-sm mt-1 opacity-80">Total Raised</p>
+        </div>
+        <div data-id="148" id="fund-card2-w3x4" class="card p-5 text-center">
+          <p data-id="149" class="text-3xl font-extrabold tabular-nums" style="color:var(--navy);">$4.08M</p>
+          <p data-id="150" class="text-sm mt-1" style="color:var(--text-sec);">Disbursed to Date</p>
+        </div>
+        <div data-id="151" id="fund-card3-y5z6" class="card p-5 text-center">
+          <p data-id="152" class="text-3xl font-extrabold tabular-nums" style="color:var(--navy);">$4.50M</p>
+          <p data-id="153" class="text-sm mt-1" style="color:var(--text-sec);">Available for Deployment</p>
+        </div>
+      </div>
+
+      <!-- RESTRICTION PROFILE BAR -->
+      <div data-id="154" id="restriction-bar-a7b8" class="card p-5 mb-6">
+        <h3 data-id="155" id="restrict-title-c9d0" class="text-sm font-semibold mb-3" style="color:var(--navy);">Portfolio Restriction Profile</h3>
+        <div data-id="156" class="flex items-center gap-0 rounded-lg overflow-hidden h-8 mb-2">
+          <div data-id="157" class="h-full flex items-center justify-center text-white text-xs font-semibold" style="width:57.4%;background:#dc2626;">57.4%</div>
+          <div data-id="158" class="h-full flex items-center justify-center text-white text-xs font-semibold" style="width:42.6%;background:#16a34a;">42.6%</div>
+        </div>
+        <div data-id="159" class="flex flex-wrap gap-4 text-xs mb-3" style="color:var(--text-sec);">
+          <span data-id="160" class="flex items-center gap-1.5"><span data-id="161" class="inline-block w-3 h-3 rounded-sm" style="background:#dc2626;"></span>Restricted / Earmarked — $5.18M (57.4%)</span>
+          <span data-id="162" class="flex items-center gap-1.5"><span data-id="163" class="inline-block w-3 h-3 rounded-sm" style="background:#16a34a;"></span>Unrestricted / Flexible — $3.85M (42.6%)</span>
+        </div>
+        <div data-id="164" class="rounded-lg p-3" style="background:#fffbeb;border:1px solid #fde68a;">
+          <p data-id="165" class="text-xs leading-relaxed" style="color:#92400e;">
+            <i data-id="166" data-lucide="alert-triangle" class="w-4 h-4 inline -mt-0.5 mr-1"></i>
+            More than half of all funds raised are pre-directed to specific activities or locations chosen by the donor. This is normal and expected — designated giving is the foundation of FFTP Jamaica's donor relationships. What it means for new investment is that the $3.85M in unrestricted funding, plus any new unrestricted donations, carries the responsibility of correcting geographic and sectoral imbalances that restricted funds cannot address.
+          </p>
+        </div>
+      </div>
+
+      <!-- EARMARKING BY SECTOR TABLE -->
+      <div data-id="167" id="earmark-sector-wrap-e1f2" class="card overflow-x-auto mb-6">
+        <h3 data-id="168" id="earmark-sector-title-g3h4" class="text-sm font-semibold px-4 pt-4 pb-2" style="color:var(--navy);">How Donor Restrictions Align With Sector Need — Sector by Sector</h3>
+        <div data-id="169" style="overflow-x:auto;width:100%;">
+        <table data-id="170" id="earmark-sector-table-i5j6" class="w-full text-xs">
+          <thead data-id="171">
+            <tr data-id="172" style="background:var(--navy);color:white;">
+              <th data-id="173" class="text-left py-3 px-3 font-semibold">Sector</th>
+              <th data-id="174" class="text-center py-3 px-2 font-semibold">Gap Score</th>
+              <th data-id="175" class="text-center py-3 px-2 font-semibold">Completion</th>
+              <th data-id="176" class="text-center py-3 px-2 font-semibold">Restriction Level</th>
+              <th data-id="177" class="text-left py-3 px-2 font-semibold">Key Donors</th>
+              <th data-id="178" class="text-left py-3 px-3 font-semibold">Alignment Note</th>
+            </tr>
+          </thead>
+          <tbody data-id="179" id="earmark-sector-tbody-k7l8"></tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- THREE-TIER MODEL -->
+      <div data-id="180" id="tier-model-m9n0" class="mb-6">
+        <h3 data-id="181" id="tier-title-o1p2" class="text-base font-bold mb-4" style="color:var(--navy);">Three Ways to Give — Choosing the Right Type of Donation</h3>
+        <div data-id="182" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Tier 1 -->
+          <div data-id="183" id="tier1-card-q3r4" class="card p-5" style="border-left:4px solid var(--navy);">
+            <div data-id="184" class="flex items-center gap-2 mb-2">
+              <span data-id="185" class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style="background:var(--navy);color:white;">1</span>
+              <h4 data-id="186" class="text-sm font-bold" style="color:var(--navy);">DESIGNATED</h4>
+            </div>
+            <p data-id="187" class="text-xs font-semibold mb-2" style="color:var(--text-sec);">Project-Specific</p>
+            <p data-id="188" class="text-xs leading-relaxed mb-3">The donor chooses a specific community, project type, or activity. FFTP delivers against that exact designation and reports back with named beneficiaries and project-level outcomes. This is the most tangible giving experience — and the most common.</p>
+            <div data-id="189" class="rounded-lg p-2.5" style="background:#f0f4f8;">
+              <p data-id="190" class="text-[10px] font-semibold" style="color:var(--navy);">Gift-in-Action:</p>
+              <p data-id="191" class="text-[10px]" style="color:var(--text-sec);">$15K school · $30K home · $50K disability programme · $130K water system</p>
+            </div>
+          </div>
+          <!-- Tier 2 -->
+          <div data-id="192" id="tier2-card-s5t6" class="card p-5" style="border-left:4px solid var(--gold);">
+            <div data-id="193" class="flex items-center gap-2 mb-2">
+              <span data-id="194" class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style="background:var(--gold);color:white;">2</span>
+              <h4 data-id="195" class="text-sm font-bold" style="color:var(--gold-dark);">SECTOR-FLEXIBLE</h4>
+              <span data-id="196" class="text-[9px] font-semibold px-1.5 py-0.5 rounded" style="background:var(--gold);color:white;">PREFERRED</span>
+            </div>
+            <p data-id="197" class="text-xs font-semibold mb-2" style="color:var(--text-sec);">Sector-Restricted</p>
+            <p data-id="198" class="text-xs leading-relaxed mb-3">The donor chooses a sector — WASH, housing, food security, livelihoods, or infrastructure — and FFTP directs the gift to the highest-need parish within that sector, guided by NVI scores. This gives the donor a clear programmatic focus while allowing FFTP to target the most vulnerable communities within that focus area.</p>
+            <div data-id="199" class="rounded-lg p-2.5" style="background:#fdf8eb;">
+              <p data-id="200" class="text-[10px] leading-relaxed" style="color:#92400e;">Best match for WASH and Infrastructure, which have the two highest sector need scores in the portfolio and are both below 30% complete. A sector-flexible WASH gift in Hanover, for example, would fund water systems in the parish with the highest WASH vulnerability score and zero confirmed water systems installed.</p>
+            </div>
+          </div>
+          <!-- Tier 3 -->
+          <div data-id="201" id="tier3-card-u7v8" class="card p-5" style="border-left:4px solid #16a34a;">
+            <div data-id="202" class="flex items-center gap-2 mb-2">
+              <span data-id="203" class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style="background:#16a34a;color:white;">3</span>
+              <h4 data-id="204" class="text-sm font-bold" style="color:#16a34a;">UNRESTRICTED</h4>
+              <span data-id="205" class="text-[9px] font-semibold px-1.5 py-0.5 rounded" style="background:#16a34a;color:white;">HIGHEST IMPACT</span>
+            </div>
+            <p data-id="206" class="text-xs font-semibold mb-2" style="color:var(--text-sec);">NVI-Guided</p>
+            <p data-id="207" class="text-xs leading-relaxed mb-3">FFTP deploys the gift to whichever parish-sector combination scores highest on the NVI investment model — maximum impact, maximum flexibility. Reporting is at portfolio level with full NVI evidence showing how the allocation decision was made. This is the giving structure that most directly corrects the geographic gaps identified in the data.</p>
+            <div data-id="208" class="rounded-lg p-2.5" style="background:#f0fdf4;">
+              <p data-id="209" class="text-[10px] leading-relaxed" style="color:#166534;">Most impactful for closing the coverage gaps in Hanover (1.3%), Trelawny (1.8%), and St. James (0.3%) — the three parishes where FFTP is currently reaching the smallest fraction of people in need. An unrestricted gift is the fastest path to reaching those communities.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRANSPARENCY COMMITMENTS -->
+      <div data-id="210" id="commitments-w9x0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <div data-id="211" class="card p-4 flex items-start gap-2">
+          <span data-id="212" class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold flex-shrink-0 mt-0.5" style="background:var(--navy);color:white;">1</span>
+          <p data-id="213" class="text-xs leading-relaxed">All earmarked gifts reported against the specific project or sector designated. Donors receive named beneficiaries and project-level outcomes.</p>
+        </div>
+        <div data-id="214" class="card p-4 flex items-start gap-2">
+          <span data-id="215" class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold flex-shrink-0 mt-0.5" style="background:var(--navy);color:white;">2</span>
+          <p data-id="216" class="text-xs leading-relaxed">Unrestricted gifts reported with NVI scoring evidence — showing exactly how FFTP determined where the donation was allocated.</p>
+        </div>
+        <div data-id="217" class="card p-4 flex items-start gap-2">
+          <span data-id="218" class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold flex-shrink-0 mt-0.5" style="background:var(--navy);color:white;">3</span>
+          <p data-id="219" class="text-xs leading-relaxed">The NVI is refreshed annually. Vulnerability rankings are updated as recovery data improves, ensuring allocation decisions remain current.</p>
+        </div>
+        <div data-id="220" class="card p-4 flex items-start gap-2">
+          <span data-id="221" class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold flex-shrink-0 mt-0.5" style="background:var(--navy);color:white;">4</span>
+          <p data-id="222" class="text-xs leading-relaxed">A parish attribution audit (target: December 2026) will assign 3,001 currently unlocated project units to confirmed parishes, sharpening allocation precision for the next funding cycle.</p>
+        </div>
+      </div>
+
+      <!-- CIBC CASE STUDY -->
+      <div data-id="223" id="cibc-case-a1b2" class="rounded-xl p-5 md:p-6" style="background:var(--navy-dark);color:white;">
+        <h3 data-id="224" id="cibc-title-c3d4" class="text-sm font-bold mb-3 flex items-center gap-2">
+          <i data-id="225" data-lucide="school" class="w-5 h-5 opacity-80"></i>
+          Earmarking Case Study — CIBC Church-School Infrastructure Programme
+        </h3>
+        <p data-id="226" class="text-xs leading-relaxed opacity-90 mb-4">CIBC has committed funding for 10 school renovation projects, all of which are approved, funded, and waiting to begin. Infrastructure is the sector with the second-highest need gap in the portfolio — 126 non-government-assisted schools were excluded from the Jamaican Government's reconstruction programme, leaving FFTP as one of the only organisations repairing them. The CIBC partnership is a strong example of sector-aligned giving: the donor's focus matches a genuine and documented gap. The main constraint is geographic flexibility — as a fully earmarked sector, FFTP cannot redirect infrastructure funds to higher-NVI parishes if they fall outside CIBC's designated communities.</p>
+        <div data-id="227" class="flex flex-wrap gap-3">
+          <span data-id="228" class="text-[11px] font-semibold px-3 py-1.5 rounded-lg" style="background:#142e4a;color:#d4a017;">126 non-public schools excluded from GOJ reconstruction</span>
+          <span data-id="229" class="text-[11px] font-semibold px-3 py-1.5 rounded-lg" style="background:#142e4a;color:#d4a017;">36 FFTP infrastructure projects · 44 buildings targeted</span>
+          <span data-id="230" class="text-[11px] font-semibold px-3 py-1.5 rounded-lg" style="background:#142e4a;color:#d4a017;">Gap Score 6.9 · 15.9% complete · 19 not started</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ TAB 4: WHERE CURRENT DELIVERY FALLS SHORT ═══════════════ -->
+    <section data-id="231" id="panel-scatter" class="tab-panel hidden">
+      <div data-id="232" id="scatter-header-r4s5" class="mb-6" style="padding-top:1rem;">
+        <h2 data-id="233" id="scatter-title-t6u7" class="text-xl md:text-2xl font-bold" style="color:var(--navy);">Vulnerability vs. Delivery — Seeing the Gap Clearly, Sector by Sector</h2>
+        <p data-id="234" id="scatter-subtitle-v8w9" class="text-sm" style="color:var(--text-sec);margin-top:0.5rem;margin-bottom:1rem;">Each chart below plots NVI vulnerability against FFTP delivery for one sector across all parishes. Parishes in the upper-left corner of each chart are the most important: high vulnerability, low delivery. That is where the need is greatest and the gap is widest. Parishes in the lower-right have received more delivery relative to their vulnerability — not because they are unimportant, but because Year One donor designations and operational access patterns concentrated resources there. The Coverage Rate column (Tab 1) puts this in human terms: St. James, with 188,656 people in need, has an estimated FFTP coverage rate of 0.3%. Hanover, with 64,198 people in need, also sits at 1.3%. Trelawny is at 1.8%. These are the numbers behind the charts — and the investment case for Year Two.</p>
+      </div>
+      <div data-id="235" id="scatter-grid-x0y1" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- ═══════════════ TAB 5: NEW INVESTMENT ALLOCATION ═══════════════ -->
+    <section data-id="236" id="panel-alloc" class="tab-panel hidden">
+      <!-- Header -->
+      <div data-id="237" class="mb-6" style="padding-top:1rem;">
+        <h2 data-id="238" class="text-xl md:text-2xl font-bold" style="color:var(--navy);">Where Should New Donations Go? — The NVI-Guided Allocation Plan</h2>
+        <p data-id="239" class="text-sm" style="color:var(--text-sec);margin-top:0.5rem;margin-bottom:1.25rem;">This tab shows FFTP Jamaica's recommended allocation of 3,001 project units that have not yet been assigned to a specific parish. These represent the largest single new investment decision in the portfolio — particularly 2,749 monthly food kits and a significant number of housing units. The allocation below is guided by the NVI new investment model: 60–65% NVI parish vulnerability score, 25–30% sector unmet need density, and a pass/fail partner feasibility gate. Infrastructure is excluded — no unassigned infrastructure units exist; see the investment priority table in the NVI Assessment for school-specific recommendations.</p>
+        <div data-id="240" class="flex flex-wrap gap-2 mt-3">
+          <span data-id="241" class="text-[11px] font-semibold px-3 py-1 rounded-full text-white" style="background:var(--navy);">Layer 1: NVI Score · 60–65%</span>
+          <span data-id="242" class="text-[11px] font-semibold px-3 py-1 rounded-full text-white" style="background:#2563eb;">Layer 2: Sector Unmet Need · 25–30%</span>
+          <span data-id="243" class="text-[11px] font-semibold px-3 py-1 rounded-full" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;">Layer 3: Partner Feasibility · Pass/Fail Gate</span>
+        </div>
+      </div>
+
+      <!-- New Investment Model Explanation -->
+      <div data-id="244" style="background:#f0f4f8;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;border-left:4px solid #1a3a5c;">
+        <h3 data-id="245" style="font-size:0.85rem;font-weight:700;color:#1a3a5c;margin:0 0 0.75rem 0;">The New Investment Model — How Allocations Are Determined</h3>
+        <div data-id="246" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+          <div data-id="247" style="background:white;border-radius:6px;padding:0.85rem;border-top:3px solid #1a3a5c;">
+            <p data-id="248" style="font-size:0.7rem;font-weight:700;color:#1a3a5c;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 0.4rem 0;">Layer 1 — WHERE · 60–65%</p>
+            <p data-id="249" style="font-size:0.8rem;font-weight:600;color:#142e4a;margin:0 0 0.3rem 0;">NVI Parish Vulnerability Score</p>
+            <p data-id="250" style="font-size:0.75rem;color:#6b7280;margin:0;">The dominant driver. Highest-NVI parishes receive first-call on unrestricted new donations.</p>
+          </div>
+          <div data-id="251" style="background:white;border-radius:6px;padding:0.85rem;border-top:3px solid #2563eb;">
+            <p data-id="252" style="font-size:0.7rem;font-weight:700;color:#2563eb;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 0.4rem 0;">Layer 2 — WHAT · 25–30%</p>
+            <p data-id="253" style="font-size:0.8rem;font-weight:600;color:#142e4a;margin:0 0 0.3rem 0;">Sector Unmet Need Density</p>
+            <p data-id="254" style="font-size:0.75rem;color:#6b7280;margin:0;">Which sector within a priority parish is furthest from its programmatic target. Replaces completion distance.</p>
+          </div>
+          <div data-id="255" style="background:white;border-radius:6px;padding:0.85rem;border-top:3px solid #16a34a;">
+            <p data-id="256" style="font-size:0.7rem;font-weight:700;color:#16a34a;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 0.4rem 0;">Layer 3 — CAN WE · Gate</p>
+            <p data-id="257" style="font-size:0.8rem;font-weight:600;color:#142e4a;margin:0 0 0.3rem 0;">Partner Feasibility (Pass/Fail)</p>
+            <p data-id="258" style="font-size:0.75rem;color:#6b7280;margin:0;">Not scored. Does FFTP have a viable church partner and community entry point? If yes, proceed. If no, flag for capacity development.</p>
+          </div>
+        </div>
+        <p data-id="259" style="font-size:0.75rem;color:#6b7280;margin:0.75rem 0 0 0;font-style:italic;">Note: Completion distance (previously weighted at 35%) has been retired — it is undefined for new projects. Population data: STATIN 2022. People-in-need: IOM Flash Appeal (Nov 2025) 🟢, WFP Two Months On (Dec 2025) 🟡, national residual estimate 🔵. WFP Eight Months On (June 2026) confirms recovery has plateaued — insufficient food consumption worsened from month 4 to month 8. Need estimates are not overstated at September 2026.</p>
+      </div>
+
+      <!-- Sector allocation cards -->
+      <div data-id="260" id="alloc-sector-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6"></div>
+
+      <!-- Post-allocation summary table -->
+      <div data-id="261" id="alloc-summary-wrap" class="card p-5 md:p-6 mb-6 overflow-x-auto">
+        <h3 data-id="262" class="text-sm font-bold mb-1" style="color:var(--navy);">What This Allocation Would Change — Before and After Parish Alignment</h3>
+        <p data-id="263" class="text-xs mb-4" style="color:var(--text-sec);">The table below shows how the recommended allocation of 3,001 unassigned units would change each parish's share of total delivery — and whether it closes or widens the gap between what FFTP is delivering and what the NVI says each parish should receive. A positive direction arrow means the parish moves closer to its NVI-ideal share. This is the accountability layer: the allocation is not just a planning document, it is a measurable commitment to NVI-guided delivery.</p>
+        <div data-id="264" style="overflow-x:auto;width:100%;">
+        <table data-id="265" class="w-full text-xs">
+          <thead data-id="266">
+            <tr data-id="267" style="background:var(--navy);color:white;">
+              <th data-id="268" class="text-left py-3 px-3 font-semibold">Parish</th>
+              <th data-id="269" class="text-center py-3 px-2 font-semibold">NVI</th>
+              <th data-id="270" class="text-center py-3 px-2 font-semibold">Tier</th>
+              <th data-id="271" class="text-center py-3 px-2 font-semibold">Current</th>
+              <th data-id="272" class="text-center py-3 px-2 font-semibold">+Total Rec</th>
+              <th data-id="273" class="text-center py-3 px-2 font-semibold">New Total</th>
+              <th data-id="274" class="text-center py-3 px-2 font-semibold">NVI-Ideal</th>
+              <th data-id="275" class="text-center py-3 px-2 font-semibold">Before Gap</th>
+              <th data-id="276" class="text-center py-3 px-2 font-semibold">After Gap</th>
+              <th data-id="277" class="text-center py-3 px-2 font-semibold">Direction</th>
+            </tr>
+          </thead>
+          <tbody data-id="278" id="alloc-summary-tbody"></tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- Caveats -->
+      <div data-id="279" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div data-id="280" class="rounded-xl p-4" style="background:#fffbeb;border:1px solid #fde68a;">
+          <p data-id="281" class="text-xs font-bold mb-1" style="color:#92400e;">⚠️ Housing TBD Alert</p>
+          <p data-id="282" class="text-xs leading-relaxed" style="color:#78350f;">The number of unassigned housing units (roof repairs) needs verification — two different figures have appeared in the data extractions. Before this allocation is finalised, the programme team should confirm the exact number. If the higher figure is correct, Westmoreland's recommended housing allocation would increase substantially, given its NVI score of 9.48 and an estimated 134,509 people in need.</p>
+        </div>
+        <div data-id="283" class="rounded-xl p-4" style="background:#fffbeb;border:1px solid #fde68a;">
+          <p data-id="284" class="text-xs font-bold mb-1" style="color:#92400e;">⚠️ Food Security Uncertainty</p>
+          <p data-id="285" class="text-xs leading-relaxed" style="color:#78350f;">2,749 of 2,776 monthly food kits — each providing one month of nutritional support to a family of 3 — do not yet have a confirmed delivery parish. This means the food security allocation shown above is a recommended target, not a confirmed delivery plan. Assigning these kits to parishes is the single highest-priority data task in the portfolio. Until it is done, the food security coverage rates shown in Tab 1 significantly understate FFTP's actual reach.</p>
+        </div>
+        <div data-id="286" class="rounded-xl p-4" style="background:#fffbeb;border:1px solid #fde68a;">
+          <p data-id="287" class="text-xs font-bold mb-1" style="color:#92400e;">⚠️ Operational Capacity Caveat</p>
+          <p data-id="288" class="text-xs leading-relaxed" style="color:#78350f;">The partner feasibility gate is applied qualitatively based on current programme team knowledge of church partner networks and community access. Manchester and St. Mary are flagged as requiring Year Two partner assessment before delivery begins — they are included in the recommended allocation on the assumption that assessment will confirm feasibility. The programme team should validate both parishes before committing funds.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer data-id="289" id="footer-main-e5f6" class="w-full px-4 md:px-8 py-5 mt-auto text-center" style="background:#f3f4f6;border-top:1px solid var(--border);">
+    <p data-id="290" id="footer-text1-g7h8" class="text-[11px] leading-relaxed max-w-5xl mx-auto" style="color:var(--text-sec);">
+      FFTP Jamaica Hurricane Melissa Recovery · IO Dashboard as of 17 September 2026 · NVI v7 (6-dimension) · Quantity-based alignment (revised target) · Prepared by Information Officer function · Internal use only
+    </p>
+    <p data-id="291" id="footer-text2-i9j0" class="text-[10px] mt-2 max-w-5xl mx-auto" style="color:#9ca3af;">
+      Data note: Parish-assigned quantities represent 969 units across 11 parishes. An additional 805 housing units and 5,249 monthly food kits (each feeding a family of 3 for one month) carry no confirmed parish (TBD) and are excluded from parish alignment calculations. Quantity-based alignment is more accurate than project-count alignment but understates FFTP's total delivery scope. 5 projects with no sector assignment excluded from sector calculations. Completion figures represent physical output only; no payment-submitted split.
+    </p>
+    <p data-id="292" id="footer-credit-k1l2" class="text-xs mt-3" style="color:#9ca3af;">Made by Copilot</p>
+  </footer>
+
+  <!-- DOCUMENT SUITE REFERENCE -->
+  <div data-id="293" style="background:#1a3a5c;color:#e2e8f0;font-size:0.7rem;padding:0.6rem 1.5rem;display:flex;flex-wrap:wrap;gap:0.5rem 1.5rem;align-items:center;margin-top:0;">
+    <span data-id="294" style="font-weight:700;color:white;white-space:nowrap;">📁 Document Suite:</span>
+    <span data-id="295" style="white-space:nowrap;">📊 <strong data-id="296" style="color:white;">This Dashboard</strong> — canonical source for all NVI scores &amp; coverage rates (v16, Sep 2026)</span>
+    <span data-id="297" style="color:#64748b;">·</span>
+    <span data-id="298" style="white-space:nowrap;">📄 NVI Parish Vulnerability Assessment Executive Summary (v4, Sep 2026)</span>
+    <span data-id="299" style="color:#64748b;">·</span>
+    <span data-id="300" style="white-space:nowrap;">📋 Year Two Recovery Strategy &amp; Implementation Plan (v1.1, Sep 2026)</span>
+    <span data-id="301" style="color:#64748b;">·</span>
+    <span data-id="302" style="white-space:nowrap;">💼 Hurricane Melissa Recovery Donor Brief (v1, Sep 2026)</span>
+    <span data-id="303" style="color:#64748b;">·</span>
+    <span data-id="304" style="white-space:nowrap;color:#94a3b8;font-style:italic;">Population: STATIN 2022 · People in Need: IOM Flash Appeal Nov 2025 🟢 / WFP Dec 2025 🟡 / National residual 🔵 · WFP 8-Month On Jun 2026</span>
+  </div>
+
+  <script>
+    // === LUCIDE ICONS ===
+    if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+      lucide.createIcons();
+    }
+
+    // === DATA ===
+    const NVI_SUM = 77.87;
+    const TOTAL_ASSIGNED_UNITS = 969;
+
+    const parishes = [
+      { name:"Westmoreland",      nvi:9.48, tier:"Critical", units:159, H:58,  W:31, F:7,  L:44,  I:19, pop:146205,  pin:134509, pinConf:"🟢", pinSrc:"IOM Flash Appeal Nov 2025" },
+      { name:"Hanover",           nvi:9.00, tier:"Critical", units:92,  H:75,  W:0,  F:1,  L:10,  I:6,  pop:69780,   pin:64198,  pinConf:"🟢", pinSrc:"IOM Flash Appeal Nov 2025" },
+      { name:"St. Elizabeth",     nvi:8.70, tier:"Critical", units:360, H:121, W:11, F:17, L:202, I:9,  pop:153201,  pin:153201, pinConf:"🟢", pinSrc:"IOM Flash Appeal Nov 2025 (100% affected)" },
+      { name:"Trelawny",          nvi:8.18, tier:"Critical", units:199, H:184, W:2,  F:2,  L:9,   I:2,  pop:77427,   pin:77427,  pinConf:"🟢", pinSrc:"IOM Flash Appeal Nov 2025 (100% affected)" },
+      { name:"St. James",        nvi:7.75, tier:"High",     units:129, H:86,  W:0,  F:0,  L:42,  I:1,  pop:188656,  pin:188656, pinConf:"🟢", pinSrc:"IOM Flash Appeal Nov 2025 (100% affected)" },
+      { name:"Clarendon",         nvi:6.93, tier:"High",     units:7,   H:6,   W:0,  F:0,  L:0,   I:1,  pop:245103,  pin:147000, pinConf:"🟡", pinSrc:"WFP 2-Month Report Dec 2025 (37% food insecurity — highest non-western)" },
+      { name:"Manchester",        nvi:6.85, tier:"High",     units:3,   H:0,   W:1,  F:0,  L:0,   I:2,  pop:193694,  pin:97000,  pinConf:"🟡", pinSrc:"WFP 2-Month Report Dec 2025 (50% proxy, rCSI +27pp)" },
+      { name:"St. Mary",          nvi:6.38, tier:"High",     units:1,   H:1,   W:0,  F:0,  L:0,   I:0,  pop:116497,  pin:58000,  pinConf:"🟡", pinSrc:"WFP 2-Month Report Dec 2025 (50% proxy, +30pp deterioration)" },
+      { name:"St. Ann",           nvi:5.20, tier:"Medium",   units:19,  H:7,   W:8,  F:0,  L:0,   I:4,  pop:175310,  pin:88000,  pinConf:"🟡", pinSrc:"WFP 2-Month Report Dec 2025 (rCSI +27pp — 3rd highest surge)" },
+      { name:"St. Catherine",     nvi:5.45, tier:"Medium",   units:0,   H:0,   W:0,  F:0,  L:0,   I:0,  pop:542763,  pin:217000, pinConf:"🔵", pinSrc:"National residual estimate (OCHA 1.6M anchor, ~40% applied)" },
+      { name:"Kingston/St. Andrew",nvi:3.88, tier:"Low",     units:0,   H:0,   W:0,  F:0,  L:0,   I:0,  pop:672904,  pin:168000, pinConf:"🔵", pinSrc:"National residual estimate (WFP <20% food insecurity; ~25% applied)" },
+    ];
+
+    // SPHERE/Jamaica-specific conversion factors for people reached
+    const CONV = { H: 3, W: 300, F: 3, L: 3, I: 100 };
+
+    // Compute idealPct FIRST so it's available for peopleGapPP
+    parishes.forEach(p => {
+      p.idealPct = parseFloat(((p.nvi / NVI_SUM) * 100).toFixed(1));
+      p.actualPct = parseFloat(((p.units / TOTAL_ASSIGNED_UNITS) * 100).toFixed(1));
+      p.gapPP = parseFloat((p.actualPct - p.idealPct).toFixed(1));
+    });
+
+    parishes.forEach(p => {
+      p.peopleReached = Math.round(
+        (p.H * CONV.H) + (p.W * CONV.W) + (p.F * CONV.F) + (p.L * CONV.L) + (p.I * CONV.I)
+      );
+    });
+    const TOTAL_PEOPLE = parishes.reduce((s, p) => s + p.peopleReached, 0);
+    parishes.forEach(p => {
+      p.peoplePct = parseFloat(((p.peopleReached / TOTAL_PEOPLE) * 100).toFixed(1));
+      p.peopleGapPP = parseFloat((p.peoplePct - p.idealPct).toFixed(1));
+      p.coverageRate = p.pin > 0 ? parseFloat(((p.peopleReached / p.pin) * 100).toFixed(2)) : 0;
+      p.coverageRateLabel = p.coverageRate < 1 ? '<1%' : p.coverageRate.toFixed(1) + '%';
+    });
+
+    // Update summary card 3 headline with total people
+    const summaryH3 = document.getElementById('summary-headline-3');
+    if (summaryH3) summaryH3.textContent = TOTAL_PEOPLE.toLocaleString();
+
+    const parishStatuses = {
+      "Westmoreland": "Slightly over",
+      "Hanover": "Near-aligned",
+      "St. Elizabeth": "Significantly over",
+      "Trelawny": "Over (1 large housing project)",
+      "St. James": "Slightly over",
+      "Clarendon": "Under — deferred",
+      "Manchester": "Nearly absent",
+      "St. Mary": "Nearly absent",
+      "St. Ann": "Under — legacy only",
+      "St. Catherine": "Absent",
+      "Kingston/St. Andrew": "Absent",
+    };
+
+    const parishGaps = {
+      "Westmoreland": "+4.2pp",
+      "Hanover": "-2.1pp",
+      "St. Elizabeth": "+26.0pp",
+      "Trelawny": "+10.0pp",
+      "St. James": "+3.3pp",
+      "Clarendon": "-8.2pp",
+      "Manchester": "-8.5pp",
+      "St. Mary": "-8.1pp",
+      "St. Ann": "-4.7pp",
+      "St. Catherine": "-7.0pp",
+      "Kingston/St. Andrew": "-5.0pp",
+    };
+
+    const sectors = [
+      { name:"Infrastructure", emoji:"🏫", nviDim:8.2, completion:15.9, fullCompletion:null, gapScore:6.9, badge:"Critical", projects:36, done:7, inProg:12, notStarted:19, units:"44 buildings", target:44, complete:7, color:"#7c3aed", caveat:null },
+      { name:"WASH", emoji:"💧", nviDim:8.4, completion:28.3, fullCompletion:null, gapScore:6.0, badge:"Critical", projects:44, done:15, inProg:7, notStarted:21, units:"53 parish-assigned water systems", target:53, complete:15, color:"#2563eb", caveat:null },
+      { name:"Food Security", emoji:"🌾", nviDim:8.8, completion:25.9, fullCompletion:47, gapScore:6.5, badge:"High", projects:20, done:7, inProg:8, notStarted:5, units:"27 parish-assigned monthly food kits (family of 3, one month)", target:27, complete:7, color:"#16a34a", caveat:"Full portfolio: 47% (2,480 of 5,276 monthly food kits). Parish-assigned = 27 kits only. 1 food kit = 1 monthly kit per family of 3." },
+      { name:"Livelihood", emoji:"💼", nviDim:8.0, completion:29.0, fullCompletion:72, gapScore:5.7, badge:"High", projects:20, done:89, inProg:16, notStarted:2, units:"307 participants", target:307, complete:89, color:"#d4a017", caveat:"Full portfolio: 72%. Parish-assigned completion lower due to TBD allocation." },
+      { name:"Housing", emoji:"🏠", nviDim:9.1, completion:80.3, fullCompletion:82.6, gapScore:1.8, badge:"On Track", projects:73, done:432, inProg:14, notStarted:26, units:"538 parish-assigned units", target:538, complete:432, color:"#1a3a5c", caveat:"Full portfolio: 82.6% (1,109 of 1,343). 805 units carry no parish." },
+    ];
+
+    const earmarkRows = [
+      { emoji:"💧", name:"WASH", gap:6.0, completion:"28.3%", restrict:"Partial", restrictClass:"restrict-badge-partial", donors:"UNICEF, various", note:"Gap Score 6.0 — highest need sector. Partial earmarking limits geographic flexibility." },
+      { emoji:"🏫", name:"Infrastructure", gap:6.9, completion:"15.9%", restrict:"100% Earmarked", restrictClass:"restrict-badge-full", donors:"FFTP USA, FFTP CA, CIBC", note:"Gap Score 6.9 — earmarking aligned with need. Geographic flexibility limited by donor intent." },
+      { emoji:"🌾", name:"Food Security", gap:6.5, completion:"25.9%", restrict:"Flexible", restrictClass:"restrict-badge-flexible", donors:"Coca-Cola, FFTP USA, various", note:"Gap Score 6.5 (parish-assigned). Full-portfolio 47% — gap would be 4.7. Parish-level data covers only 27 of 5,276 monthly food kits (each feeding a family of 3 for one month)." },
+      { emoji:"💼", name:"Livelihood", gap:5.7, completion:"29.0%", restrict:"Mixed", restrictClass:"restrict-badge-mixed", donors:"NCB, PSOJ, BOJ, Brandram Henderson", note:"Gap Score 5.7 (parish-assigned). Full-portfolio 72% — gap would be 2.2. Remaining need is parish-specific." },
+      { emoji:"🏠", name:"Housing", gap:1.8, completion:"80.3%", restrict:"Partial", restrictClass:"restrict-badge-partial", donors:"FFTP USA/LDS, Hurricane Relief Fund", note:"Gap Score 1.8 — near completion. 805 of 1,343 units carry no parish. Full-portfolio 82.6%." },
+    ];
+
+    const scatterParishes = [
+      { name:'Westmoreland',   nvi:9.48, h:58,  w:31, f:7,  l:44,  i:19 },
+      { name:'Hanover',        nvi:9.00, h:75,  w:0,  f:1,  l:10,  i:6  },
+      { name:'St. Elizabeth',  nvi:8.70, h:121, w:11, f:17, l:202, i:9  },
+      { name:'Trelawny',       nvi:8.18, h:184, w:2,  f:2,  l:9,   i:2  },
+      { name:'St. James',      nvi:7.75, h:86,  w:0,  f:0,  l:42,  i:1  },
+      { name:'Clarendon',      nvi:6.93, h:6,   w:0,  f:0,  l:0,   i:1  },
+      { name:'Manchester',     nvi:6.85, h:0,   w:1,  f:0,  l:0,   i:2  },
+      { name:'St. Mary',       nvi:6.38, h:1,   w:0,  f:0,  l:0,   i:0  },
+      { name:'St. Ann',        nvi:5.20, h:7,   w:8,  f:0,  l:0,   i:4  },
+      { name:'St. Catherine',  nvi:5.45, h:0,   w:0,  f:0,  l:0,   i:0  },
+      { name:'Kgn/St. Andrew', nvi:3.88, h:0,   w:0,  f:0,  l:0,   i:0  },
+    ];
+
+    const tbdRow = { H:805, W:48, F:5249, L:76, I:0 };
+
+    // === TAB 5: ALLOCATION DATA ===
+    const allocSectors = [
+      {
+        name: 'Housing', color: '#1a3a5c', tbd: 128, unit: 'roofs', emoji: '🏠',
+        rows: [
+          { p:'Westmoreland', nvi:9.48, cur:58,  add:65,  rat:'NVI 9.48 + 3,027 homes lost; only 1.9% coverage — largest unmet housing need' },
+          { p:'Hanover',      nvi:9.00, cur:75,  add:35,  rat:'NVI 9.00; near-aligned overall but benefits from additional housing depth' },
+          { p:'Trelawny',     nvi:8.18, cur:184, add:10,  rat:'Already highest of Critical parishes; small top-up pending single-project audit' },
+          { p:'St. Elizabeth',nvi:8.70, cur:121, add:10,  rat:'NVI justifies addition; coverage 8% of homes lost — already better served' },
+          { p:'St. James',    nvi:7.75, cur:86,  add:8,   rat:'550 homes lost; 15.6% coverage — best served; minimal addition only' },
+        ]
+      },
+      {
+        name: 'WASH', color: '#2563eb', tbd: 48, unit: 'water systems', emoji: '💧',
+        rows: [
+          { p:'Hanover',      nvi:9.00, cur:0,  add:22, rat:'Zero systems at NVI 9.00 — single most critical WASH gap in portfolio' },
+          { p:'St. James',    nvi:7.75, cur:0,  add:12, rat:'Zero systems; High tier; significant population without water access' },
+          { p:'Trelawny',     nvi:8.18, cur:2,  add:8,  rat:'Only 2 systems despite Critical tier; large rural population underserved' },
+          { p:'Manchester',   nvi:6.85, cur:1,  add:4,  rat:'Year Two assessment parish; seed investment to build delivery capacity' },
+          { p:'St. Elizabeth',nvi:8.70, cur:11, add:2,  rat:'Critical tier; modest top-up; already best-served WASH parish' },
+        ]
+      },
+      {
+        name: 'Food Security', color: '#16a34a', tbd: 2749, unit: 'monthly food kits (family of 3, one month)', emoji: '🌾',
+        rows: [
+          { p:'Westmoreland', nvi:9.48, cur:7,   add:475, rat:'NVI 9.48; highest vulnerability; only 7 confirmed — largest proportional gap' },
+          { p:'Hanover',      nvi:9.00, cur:1,   add:470, rat:'NVI 9.00; 1 confirmed monthly food kit — near-absent despite Critical tier' },
+          { p:'Trelawny',     nvi:8.18, cur:2,   add:390, rat:'Critical tier; only 2 confirmed; church network can support distribution' },
+          { p:'St. James',    nvi:7.75, cur:0,   add:335, rat:'Zero confirmed; High tier with significant food insecurity dimension' },
+          { p:'Manchester',   nvi:6.85, cur:0,   add:280, rat:'Year Two parish; food security is lowest-barrier entry point for new operations' },
+          { p:'Clarendon',    nvi:6.93, cur:0,   add:270, rat:'High tier; deferred for acute reconstruction but food needs persist' },
+          { p:'St. Elizabeth',nvi:8.70, cur:17,  add:265, rat:'Critical; already has 17 confirmed — reduced share to correct concentration' },
+          { p:'St. Mary',     nvi:6.38, cur:0,   add:264, rat:'Nearly absent; High tier; church presence sufficient for food distribution' },
+        ]
+      },
+      {
+        name: 'Livelihood', color: '#d4a017', tbd: 76, unit: 'participants', emoji: '💼',
+        rows: [
+          { p:'Hanover',   nvi:9.00, cur:10, add:30, rat:'Critical tier; only 10 confirmed; vocational training capacity exists via church partners' },
+          { p:'Trelawny',  nvi:8.18, cur:9,  add:25, rat:'Critical tier; 9 confirmed — significantly under-served relative to vulnerability' },
+          { p:'Manchester',nvi:6.85, cur:0,  add:15, rat:'Year Two parish; livelihood programming seeds long-term economic recovery' },
+          { p:'St. Mary',  nvi:6.38, cur:0,  add:6,  rat:'Nearly absent; small allocation to establish presence ahead of Year Three' },
+        ],
+        note: 'Zero additional units to St. Elizabeth — it already holds 202 of 307 confirmed participants (66%). Rebalancing is the priority.'
+      },
+      {
+        name: 'Infrastructure', color: '#7c3aed', tbd: 0, unit: 'school buildings', emoji: '🏫',
+        rows: [
+          { p:'St. James',    nvi:7.75, cur:1,  add:0, rat:'53 MOE Priority 1 schools; 1 FFTP building (1.9% coverage) — highest unmet need' },
+          { p:'Trelawny',     nvi:8.18, cur:2,  add:0, rat:'25 MOE Priority 1 schools; 2 FFTP buildings (8.0%) — second priority' },
+          { p:'Manchester',   nvi:6.85, cur:2,  add:0, rat:'17 MOE Priority 1 schools; 2 buildings — Year Two assessment parish' },
+          { p:'Westmoreland', nvi:9.48, cur:19, add:0, rat:'19 buildings — most in portfolio; well served relative to school count' },
+          { p:'Hanover',      nvi:9.00, cur:6,  add:0, rat:'6 buildings; moderate coverage; not lead priority for next tranche' },
+        ],
+        note: 'Infrastructure has zero TBD units — all 44 buildings are parish-confirmed. Rows show NEXT INVESTMENT priority order for Year Three donor asks, not TBD allocation. 100% donor-earmarked sector.'
+      }
+    ];
+
+    const allocSummary = [
+      { p:'Westmoreland',      nvi:9.48, tier:'Critical', cur:159, add:540, newT:699, ideal:'12.2%', before:'+4.2pp', after:'+5.4pp', dir:'slight' },
+      { p:'Hanover',           nvi:9.00, tier:'Critical', cur:92,  add:557, newT:649, ideal:'11.6%', before:'-2.1pp', after:'+4.7pp', dir:'improve' },
+      { p:'St. Elizabeth',     nvi:8.70, tier:'Critical', cur:360, add:277, newT:637, ideal:'11.2%', before:'+26pp',  after:'+4.8pp', dir:'correct' },
+      { p:'Trelawny',          nvi:8.18, tier:'Critical', cur:199, add:433, newT:632, ideal:'10.5%', before:'+10pp',  after:'+5.4pp', dir:'correct' },
+      { p:'St. James',         nvi:7.75, tier:'High',     cur:129, add:355, newT:484, ideal:'10.0%', before:'+3.3pp', after:'+2.2pp', dir:'improve' },
+      { p:'Clarendon',         nvi:6.93, tier:'High',     cur:7,   add:270, newT:277, ideal:'8.9%',  before:'-8.2pp', after:'-1.9pp', dir:'improve' },
+      { p:'Manchester',        nvi:6.85, tier:'High',     cur:3,   add:299, newT:302, ideal:'8.8%',  before:'-8.5pp', after:'-1.2pp', dir:'improve' },
+      { p:'St. Mary',          nvi:6.38, tier:'High',     cur:1,   add:270, newT:271, ideal:'8.2%',  before:'-8.1pp', after:'-1.4pp', dir:'improve' },
+      { p:'St. Ann',           nvi:5.20, tier:'Medium',   cur:19,  add:0,   newT:19,  ideal:'6.7%',  before:'-4.7pp', after:'-6.2pp', dir:'worsen' },
+      { p:'St. Catherine',     nvi:5.45, tier:'Medium',   cur:0,   add:0,   newT:0,   ideal:'7.0%',  before:'-7.0pp', after:'-7.0pp', dir:'same' },
+      { p:'Kgn/St. Andrew',    nvi:3.88, tier:'Low',      cur:0,   add:0,   newT:0,   ideal:'5.0%',  before:'-5.0pp', after:'-5.0pp', dir:'same' },
+    ];
+
+    // === METRIC TOGGLE STATE ===
+    let currentMetric = 'people';
+
+    function setMetric(mode) {
+      currentMetric = mode;
+      const btnP = document.getElementById('btn-people');
+      const btnU = document.getElementById('btn-units');
+      const btnC = document.getElementById('btn-coverage');
+      const noteEl = document.getElementById('metric-note');
+      const colLabel = document.getElementById('col-metric-label');
+      [btnP, btnU, btnC].forEach(function(b) { if(b){ b.style.background='white'; b.style.color=b.id==='btn-coverage'?'#16a34a':b.id==='btn-units'?'#1a3a5c':'#1a3a5c'; b.style.border=b.id==='btn-coverage'?'1.5px solid #16a34a':'1.5px solid #1a3a5c'; }});
+      if (mode === 'people') {
+        btnP.style.background='#1a3a5c'; btnP.style.color='white';
+        if(noteEl) noteEl.textContent='Estimated using SPHERE and Jamaica-specific conversion factors. Water system = 300 people \u00b7 Roof repair = 3 people (Jamaica household) \u00b7 Food kit = 3 people per kit, per month \u00b7 School = 100 students + staff';
+        if(colLabel) colLabel.textContent='👥 People Reached (est.)';
+      } else if (mode === 'units') {
+        btnU.style.background='#1a3a5c'; btnU.style.color='white';
+        if(noteEl) noteEl.textContent='Unit counts aggregate roof repairs, water systems, monthly food kits, livelihood grants, and school buildings \u2014 not directly comparable across sectors. Use People Reached for cross-sector comparison.';
+        if(colLabel) colLabel.textContent='📦 Units Delivered';
+      } else {
+        btnC.style.background='#16a34a'; btnC.style.color='white';
+        if(noteEl) noteEl.textContent='Coverage Rate = FFTP people reached \u00f7 parish people in need \u00d7 100. People-in-need: IOM Flash Appeal (Nov 2025) for 5 western parishes \ud83d\udfe2; WFP Two Months On (Dec 2025) for central parishes \ud83d\udfe1; national residual estimate for eastern/urban \ud83d\udd35. WFP Eight Months On (June 2026) confirms needs remain elevated \u2014 insufficient food consumption worsened from month 4 to month 8. These figures are not overstated at September 2026.';
+        if(colLabel) colLabel.textContent='📊 Coverage Rate (% of need met)';
+      }
+      renderParishTable();
+    }
+
+    // === RENDER PARISH TABLE ===
+    function renderParishTable() {
+      const tbody = document.getElementById('parish-tbody-g3h4');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      parishes.forEach(function(p, i) {
+        var usePeople = currentMetric === 'people';
+        var useCoverage = currentMetric === 'coverage';
+        var metricVal, sharePct, gapPP, gapColor;
+        if (useCoverage) {
+          metricVal = '<strong>' + p.coverageRateLabel + '</strong>';
+          sharePct = p.coverageRate.toFixed(1) + '%';
+          gapPP = '—';
+          gapColor = p.coverageRate < 1 ? '#dc2626' : p.coverageRate < 5 ? '#d97706' : '#16a34a';
+        } else if (usePeople) {
+          metricVal = p.peopleReached.toLocaleString();
+          sharePct = p.peoplePct + '%';
+          gapPP = (p.peopleGapPP > 0 ? '+' : '') + p.peopleGapPP + 'pp';
+          gapColor = p.peopleGapPP < -3 ? '#dc2626' : p.peopleGapPP > 5 ? '#d97706' : '#16a34a';
+        } else {
+          metricVal = p.units.toLocaleString();
+          sharePct = p.actualPct + '%';
+          gapPP = (p.gapPP > 0 ? '+' : '') + p.gapPP + 'pp';
+          gapColor = p.gapPP < -3 ? '#dc2626' : p.gapPP > 5 ? '#d97706' : '#16a34a';
+        }
+        var tierColor = p.tier==='Critical'?'#7f1d1d':p.tier==='High'?'#92400e':p.tier==='Medium'?'#1e3a5f':'#374151';
+        var tierBg = p.tier==='Critical'?'#fee2e2':p.tier==='High'?'#fef3c7':p.tier==='Medium'?'#dbeafe':'#f3f4f6';
+        var confTitle = p.pinSrc || '';
+        var bg = i%2===0?'white':'#f9fafb';
+        tbody.innerHTML += '<tr style="background:' + bg + ';">' +
+          '<td class="py-2 px-3 font-semibold" style="color:#1a3a5c;white-space:nowrap;">' + p.name + '</td>' +
+          '<td class="text-center py-2 px-2 font-bold" style="color:' + tierColor + ';">' + p.nvi.toFixed(2) + '</td>' +
+          '<td class="text-center py-2 px-2"><span style="background:' + tierBg + ';color:' + tierColor + ';font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:999px;">' + p.tier + '</span></td>' +
+          '<td class="text-center py-2 px-2" style="color:#374151;">' + p.pop.toLocaleString() + '</td>' +
+          '<td class="text-center py-2 px-2" style="color:#374151;" title="' + confTitle + '">' + p.pin.toLocaleString() + '</td>' +
+          '<td class="text-center py-2 px-2" title="' + confTitle + '" style="font-size:1rem;cursor:help;">' + p.pinConf + '</td>' +
+          '<td class="text-center py-2 px-2" style="color:#6b7280;">' + p.idealPct + '%</td>' +
+          '<td class="text-center py-2 px-2 font-semibold" style="color:#1a3a5c;">' + metricVal + '</td>' +
+          '<td class="text-center py-2 px-2">' + sharePct + '</td>' +
+          '<td class="text-center py-2 px-2 font-bold" style="color:' + gapColor + ';">' + gapPP + '</td>' +
+          '<td class="text-center py-2 px-2" style="font-size:0.7rem;color:' + gapColor + ';">' + (parishStatuses[p.name]||'—') + '</td>' +
+        '</tr>';
+      });
+      // Totals row
+      var totalMetric;
+      if (currentMetric === 'coverage') {
+        var totalPIN = parishes.reduce(function(s,p){return s+p.pin;},0);
+        var totalCovRate = totalPIN > 0 ? ((TOTAL_PEOPLE / totalPIN) * 100).toFixed(1) : '—';
+        totalMetric = '<strong>' + totalCovRate + '%</strong>';
+      } else if (currentMetric === 'people') {
+        totalMetric = TOTAL_PEOPLE.toLocaleString();
+      } else {
+        totalMetric = TOTAL_ASSIGNED_UNITS.toLocaleString();
+      }
+      var totalPop = parishes.reduce(function(s,p){return s+p.pop;},0);
+      var totalPIN2 = parishes.reduce(function(s,p){return s+p.pin;},0);
+      tbody.innerHTML += '<tr style="background:#f0f4f8;border-top:2px solid var(--navy);">' +
+        '<td class="py-2.5 px-3 font-bold text-xs">Total (Parish-Assigned)</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums">' + totalPop.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums">' + totalPIN2.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums">100%</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums">' + totalMetric + '</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums">100%</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '</tr>';
+    }
+
+    // === RENDER PARISH MATRIX ===
+    function renderMatrix() {
+      const tbody = document.getElementById("matrix-tbody-o1p2");
+      if (!tbody) return;
+      const sectorColors = { H:"#1a3a5c", W:"#2563eb", F:"#16a34a", L:"#d4a017", I:"#7c3aed" };
+      function cell(val, color) {
+        if (val > 0) return '<td class="text-center py-2 px-2"><span class="dot" style="background:' + color + ';' + (val > 99 ? 'font-size:9px;min-width:32px;' : '') + '">' + val.toLocaleString() + '</span></td>';
+        return '<td class="text-center py-2 px-2 text-gray-300">—</td>';
+      }
+      let html = "";
+      parishes.forEach((p, i) => {
+        const total = p.H + p.W + p.F + p.L + p.I;
+        const bg = i % 2 === 1 ? "background:#f9fafb;" : "";
+        html += '<tr style="border-bottom:1px solid var(--border);' + bg + '">' +
+          '<td class="py-2 px-3 font-medium text-xs whitespace-nowrap">' + p.name + '</td>' +
+          cell(p.H, sectorColors.H) + cell(p.W, sectorColors.W) + cell(p.F, sectorColors.F) + cell(p.L, sectorColors.L) + cell(p.I, sectorColors.I) +
+          '<td class="text-center py-2 px-2 font-semibold text-xs tabular-nums">' + total.toLocaleString() + '</td>' +
+          '</tr>';
+      });
+      const tbdTotal = tbdRow.H + tbdRow.W + tbdRow.F + tbdRow.L + tbdRow.I;
+      html += '<tr style="background:#fffbeb;border-bottom:1px solid #fde68a;">' +
+        '<td class="py-2.5 px-3 text-xs font-semibold" style="color:#92400e;">⚠ Unlocated (TBD)</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-semibold" style="color:#92400e;">' + tbdRow.H.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-semibold" style="color:#92400e;">' + tbdRow.W.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-semibold" style="color:#92400e;">' + tbdRow.F.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-semibold" style="color:#92400e;">' + tbdRow.L.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-semibold" style="color:#92400e;">' + tbdRow.I.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums" style="color:#92400e;">' + tbdTotal.toLocaleString() + '</td>' +
+        '</tr>';
+      const grandH = parishes.reduce((s,p) => s+p.H, 0) + tbdRow.H;
+      const grandW = parishes.reduce((s,p) => s+p.W, 0) + tbdRow.W;
+      const grandF = parishes.reduce((s,p) => s+p.F, 0) + tbdRow.F;
+      const grandL = parishes.reduce((s,p) => s+p.L, 0) + tbdRow.L;
+      const grandI = parishes.reduce((s,p) => s+p.I, 0) + tbdRow.I;
+      const grandTotal = grandH + grandW + grandF + grandL + grandI;
+      html += '<tr style="background:#f0f4f8;border-top:2px solid var(--navy);">' +
+        '<td class="py-2.5 px-3 text-xs font-bold" style="color:var(--navy);">Grand Total</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-bold tabular-nums">' + grandH.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-bold tabular-nums">' + grandW.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-bold tabular-nums">' + grandF.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-bold tabular-nums">' + grandL.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-bold tabular-nums">' + grandI.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs font-bold tabular-nums">' + grandTotal.toLocaleString() + '</td>' +
+        '</tr>';
+      tbody.innerHTML = html;
+    }
+
+    // === RENDER GAP SCORE CARDS ===
+    function renderGapCards() {
+      const container = document.getElementById("sector-gap-cards-w9x0");
+      if (!container) return;
+      const sorted = [...sectors].sort((a,b) => b.gapScore - a.gapScore);
+      let html = "";
+      sorted.forEach(s => {
+        const badgeClass = s.badge === "Critical" ? "gap-badge-critical" : s.badge === "High" ? "gap-badge-high" : s.badge === "Moderate" ? "gap-badge-moderate" : "gap-badge-ontrack";
+        const caveatLine = s.fullCompletion ? '<p class="text-[9px] mt-1 italic" style="color:#9ca3af;">Full portfolio: ' + s.fullCompletion + '%</p>' : '';
+        html += '<div class="card p-4 text-center" style="border-top:3px solid ' + s.color + ';">' +
+          '<p class="text-lg mb-1">' + s.emoji + '</p>' +
+          '<p class="text-xs font-semibold mb-1">' + s.name + '</p>' +
+          '<p class="text-2xl font-extrabold tabular-nums" style="color:' + s.color + ';">' + s.gapScore + '</p>' +
+          '<p class="text-[10px] uppercase tracking-wider mb-1" style="color:var(--text-sec);">Gap Score</p>' +
+          '<p class="text-[10px] tabular-nums mb-2" style="color:var(--text-sec);">' + s.completion + '% complete</p>' +
+          '<span class="' + badgeClass + '">' + s.badge + '</span>' +
+          caveatLine +
+          '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    // === HOUSING COMPLETION BREAKDOWN HTML ===
+    function getHousingBreakdownHTML() {
+      return '<div class="mt-4 rounded-r-lg p-4" style="border-left:4px solid #f59e0b;background:#fffbeb;">' +
+        '<h5 class="font-semibold text-sm mb-3" style="color:#92400e;">⚠ Housing Completion — Three-Layer Breakdown</h5>' +
+        '<div class="overflow-x-auto"><table class="w-full text-xs mb-3"><thead><tr style="background:#fef3c7;">' +
+        '<th class="text-left py-2 px-2.5 font-semibold" style="color:#78350f;">Category</th>' +
+        '<th class="text-center py-2 px-2 font-semibold" style="color:#78350f;">Units</th>' +
+        '<th class="text-center py-2 px-2 font-semibold" style="color:#78350f;">Physical Complete</th>' +
+        '<th class="text-center py-2 px-2 font-semibold" style="color:#78350f;">Completion Rate</th>' +
+        '<th class="text-left py-2 px-2.5 font-semibold" style="color:#78350f;">Note</th>' +
+        '</tr></thead><tbody>' +
+        '<tr style="border-bottom:1px solid #fde68a;"><td class="py-2 px-2.5" style="color:#374151;">Pre-Tracker Completions</td><td class="text-center py-2 px-2 tabular-nums font-medium">618</td><td class="text-center py-2 px-2 tabular-nums font-medium">618</td><td class="text-center py-2 px-2"><span class="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background:#f0fdf4;color:#15803d;">100%</span></td><td class="py-2 px-2.5 text-[10px] leading-snug" style="color:#6b7280;">Completed before tracker stood up. Real delivery — parish unattributable.</td></tr>' +
+        '<tr style="border-bottom:1px solid #fde68a;"><td class="py-2 px-2.5" style="color:#374151;">Pre-Tracker (Unattributed)</td><td class="text-center py-2 px-2 tabular-nums font-medium">58</td><td class="text-center py-2 px-2 tabular-nums font-medium">58</td><td class="text-center py-2 px-2"><span class="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background:#f0fdf4;color:#15803d;">100%</span></td><td class="py-2 px-2.5 text-[10px] leading-snug" style="color:#6b7280;">Pre-tracker completions that could not be attributed to a specific named project. Finance team confirmed: not double-counted. Legitimate delivery.</td></tr>' +
+        '<tr style="border-bottom:1px solid #fde68a;"><td class="py-2 px-2.5 font-semibold" style="color:#142e4a;">Active Tracker-Era</td><td class="text-center py-2 px-2 tabular-nums font-bold" style="color:#142e4a;">667</td><td class="text-center py-2 px-2 tabular-nums font-bold" style="color:#142e4a;">433</td><td class="text-center py-2 px-2"><span class="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background:#fefce8;color:#a16207;">64.9%</span></td><td class="py-2 px-2.5 text-[10px] leading-snug" style="color:#374151;">The operationally meaningful completion rate. Headline 82.6% includes pre-tracker and reconciliation rows.</td></tr>' +
+        '</tbody></table></div>' +
+        '<p class="text-sm font-semibold" style="color:#142e4a;">Headline housing completion rate: 82.6% | Pre-tracker excluded rate: 64.9% | Finance-confirmed payment submissions: 893 units — all verified, no double-counting.</p></div>';
+    }
+
+    // === RENDER EXPANDED SECTOR CARDS ===
+    function renderSectorCards() {
+      const container = document.getElementById("sector-expanded-a1b2");
+      if (!container) return;
+      const sorted = [...sectors].sort((a,b) => b.gapScore - a.gapScore);
+      let html = "";
+      sorted.forEach(s => {
+        const unmet = (100 - s.completion).toFixed(1);
+        const caveatHTML = s.caveat ? '<p class="text-[10px] mt-2 px-2 py-1.5 rounded italic" style="background:#fffbeb;color:#92400e;border:1px solid #fde68a;"><i data-lucide="alert-triangle" class="w-3 h-3 inline -mt-0.5 mr-1"></i>' + s.caveat + '</p>' : '';
+        const fullPortLabel = s.fullCompletion ? ' (full portfolio: ' + s.fullCompletion + '%)' : '';
+        const housingBreakdown = s.name === 'Housing' ? getHousingBreakdownHTML() : '';
+
+        html += '<div class="card p-4 md:p-5" style="border-left:4px solid ' + s.color + ';">' +
+          '<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3"><div>' +
+          '<h4 class="text-sm font-bold flex items-center gap-2" style="color:' + s.color + ';"><span class="text-base">' + s.emoji + '</span>' + s.name +
+          '<span class="text-[10px] font-normal" style="color:var(--text-sec);">' + s.projects + ' projects · ' + s.units + '</span></h4>' +
+          '<p class="text-xs mt-0.5" style="color:var(--text-sec);">NVI Dimension Score: <strong>' + s.nviDim + '</strong> · Completion: <strong>' + s.completion + '%</strong>' + fullPortLabel + '</p>' +
+          '</div><div class="text-right"><p class="text-3xl font-extrabold tabular-nums" style="color:' + s.color + ';">' + s.gapScore + '</p>' +
+          '<p class="text-[10px] uppercase tracking-wider" style="color:var(--text-sec);">Gap Score</p></div></div>' +
+          '<div class="mb-3"><div class="flex rounded-lg overflow-hidden h-5">' +
+          '<div class="h-full" style="width:' + s.completion + '%;background:' + s.color + ';"></div>' +
+          '<div class="h-full" style="width:' + unmet + '%;background:#f3f4f6;"></div></div>' +
+          '<p class="text-[11px] mt-1" style="color:var(--text-sec);">' + s.completion + '% complete · ' + unmet + '% unmet need remains (parish-assigned quantities)</p></div>' +
+          '<p class="text-[10px] font-mono px-2 py-1 rounded" style="background:#f9fafb;color:var(--text-sec);">Gap Score = ' + s.nviDim + ' × (1 − ' + (s.completion / 100).toFixed(3) + ') = ' + s.gapScore + '</p>' +
+          caveatHTML + housingBreakdown + '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    // === RENDER PROJECT STATUS BARS ===
+    function renderStatusBars() {
+      const container = document.getElementById("status-bars-i9j0");
+      if (!container) return;
+      const statusData = [
+        { name:"Housing", emoji:"🏠", done:33, inProg:14, notStarted:26, color:"#1a3a5c" },
+        { name:"WASH", emoji:"💧", done:16, inProg:7, notStarted:21, color:"#2563eb" },
+        { name:"Infrastructure", emoji:"🏫", done:5, inProg:12, notStarted:19, color:"#7c3aed" },
+        { name:"Food Security", emoji:"🌾", done:7, inProg:8, notStarted:5, color:"#16a34a" },
+        { name:"Livelihood", emoji:"💼", done:2, inProg:16, notStarted:2, color:"#d4a017" },
+      ];
+      const maxProj = 73;
+      const sortedByProj = [...statusData].sort((a, b) => (b.done+b.inProg+b.notStarted) - (a.done+a.inProg+a.notStarted));
+      let html = "";
+      sortedByProj.forEach(s => {
+        const total = s.done + s.inProg + s.notStarted;
+        const barW = (total / maxProj) * 100;
+        const doneW = (s.done / total) * 100;
+        const inProgW = (s.inProg / total) * 100;
+        const notStartedW = (s.notStarted / total) * 100;
+        html += '<div class="flex items-center gap-3">' +
+          '<span class="text-xs font-medium text-right flex-shrink-0" style="width:130px;color:var(--text);">' + s.emoji + ' ' + s.name + '</span>' +
+          '<div class="flex-1"><div class="flex rounded overflow-hidden h-5" style="width:' + barW + '%;min-width:60px;">' +
+          '<div class="h-full" style="width:' + doneW + '%;background:#16a34a;" title="' + s.done + ' completed"></div>' +
+          '<div class="h-full" style="width:' + inProgW + '%;background:#60a5fa;" title="' + s.inProg + ' in progress"></div>' +
+          '<div class="h-full" style="width:' + notStartedW + '%;background:#e5e7eb;" title="' + s.notStarted + ' not started"></div>' +
+          '</div></div>' +
+          '<span class="text-xs tabular-nums font-semibold flex-shrink-0" style="color:var(--text-sec);width:28px;text-align:right;">' + total + '</span></div>';
+      });
+      container.innerHTML = html;
+    }
+
+    // === RENDER EARMARK TABLE ===
+    function renderEarmarkTable() {
+      const tbody = document.getElementById("earmark-sector-tbody-k7l8");
+      if (!tbody) return;
+      let html = "";
+      earmarkRows.forEach((r, i) => {
+        const bg = i % 2 === 1 ? "background:#f9fafb;" : "";
+        html += '<tr style="border-bottom:1px solid var(--border);' + bg + '">' +
+          '<td class="py-2.5 px-3 font-medium whitespace-nowrap">' + r.emoji + ' ' + r.name + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums font-semibold">' + r.gap + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums">' + r.completion + '</td>' +
+          '<td class="text-center py-2.5 px-2"><span class="' + r.restrictClass + '">' + r.restrict + '</span></td>' +
+          '<td class="py-2.5 px-2 text-xs" style="color:var(--text-sec);">' + r.donors + '</td>' +
+          '<td class="py-2.5 px-3 text-xs" style="color:var(--text);word-wrap:break-word;overflow-wrap:break-word;min-width:180px;white-space:normal;">' + r.note + '</td></tr>';
+      });
+      tbody.innerHTML = html;
+    }
+
+    // === RENDER SCATTER TAB ===
+    function renderScatterTab() {
+      const container = document.getElementById("scatter-grid-x0y1");
+      if (!container) return;
+
+      const ML = 65, MR = 130, MT = 30, MB = 50;
+      const CW = 505, CH = 220;
+      const xMin = 3.5, xMax = 10.2, xSpan = xMax - xMin;
+      const SVG_W = 740, SVG_H = 320;
+
+      function xPos(nvi) { return ML + (nvi - xMin) / xSpan * CW; }
+      function yPos(v, yMaxVal) { return MT + CH - (v / yMaxVal) * CH; }
+
+      const criticalNVI = 8.18;
+      const dividerX = xPos(criticalNVI);
+
+      const chartConfigs = [
+        {
+          key: 'h', color: '#1a3a5c', yLabel: 'FFTP housing units', yMaxOverride: 200,
+          title: 'The housing response does not follow the housing loss',
+          subtitle: 'Each parish plotted by NVI score against FFTP housing units sited there.',
+          goldParish: 'Westmoreland',
+          annotation: [
+            'Westmoreland, in gold, lost more homes than any',
+            'other parish and carries the fewest housing units of',
+            'the four Critical parishes. Trelawny, the least',
+            'vulnerable of the four, carries the most.'
+          ],
+          extraAnnotations: [
+            { parish: 'Westmoreland', text: '3,027 homes lost', color: '#d4a017', fs: 10, italic: true },
+            { parish: 'St. Elizabeth', text: '1,516 homes lost', color: '#9ca3af', fs: 9, italic: true },
+            { parish: 'St. James', text: '550 homes lost', color: '#9ca3af', fs: 9, italic: true },
+          ],
+          footer: 'NVI and home-loss figures from FFTP Jamaica Needs Assessment v3.0, September 23, 2026. Housing units from IO Dashboard September 17, 2026, revised quantity by parish. Home-loss data available for Westmoreland (3,027), St. Elizabeth (1,516), and St. James (550) only; Hanover and Trelawny carry no verified figure. Note: 805 of 1,343 housing units carry no confirmed parish and are excluded. The 538 plotted units represent 40% of the total housing target.',
+          fullWidth: false
+        },
+        {
+          key: 'w', color: '#2563eb', yLabel: 'FFTP water systems', yMaxOverride: null,
+          title: 'The most vulnerable parish has no water systems',
+          subtitle: 'Each parish plotted by NVI score against FFTP water systems sited there.',
+          goldParish: 'Hanover',
+          annotation: [
+            'Hanover sits at NVI 9.00 — second most vulnerable',
+            'in the portfolio — yet has received zero FFTP water',
+            'systems. Westmoreland (NVI 9.48), the most',
+            'vulnerable parish, holds the most WASH investment',
+            'at 31 systems.'
+          ],
+          extraAnnotations: [],
+          footer: 'NVI from FFTP Jamaica Needs Assessment v3.0, September 23, 2026. WASH units from IO Dashboard September 17, 2026, revised quantity by parish. WASH Gap Score = 6.0 (Critical). 35 TBD-parish projects excluded.',
+          fullWidth: false
+        },
+        {
+          key: 'f', color: '#16a34a', yLabel: 'FFTP monthly food kits', yMaxOverride: null,
+          title: 'Food security reach is concentrated — Hanover nearly absent',
+          subtitle: 'Each parish plotted by NVI score against FFTP monthly food kits distributed (each kit feeds a family of 3 for one month).',
+          goldParish: 'Hanover',
+          annotation: [
+            'Hanover (NVI 9.00), the second most vulnerable',
+            'parish, has distributed only 1 monthly food kit.',
+            'St. Elizabeth and Westmoreland account for nearly',
+            'all programming, reflecting geographic access and',
+            'existing partner networks rather than need alone.'
+          ],
+          extraAnnotations: [],
+          footer: 'NVI from FFTP Jamaica Needs Assessment v3.0, September 23, 2026. Food security figures from IO Dashboard September 17, 2026, revised target by parish. 1 food kit = 1 monthly kit per family of 3. Food Security Gap Score = 6.5 (High, parish-assigned). Note: 5,249 of 5,276 monthly food kits carry no confirmed parish. The 27 plotted represent a small fraction of total food security reach.',
+          fullWidth: false
+        },
+        {
+          key: 'l', color: '#d4a017', yLabel: 'FFTP livelihood participants', yMaxOverride: 225,
+          title: 'St. Elizabeth holds 66% of all livelihood investment',
+          subtitle: 'Each parish plotted by NVI score against FFTP livelihood participants enrolled.',
+          goldParish: 'St. Elizabeth',
+          annotation: [
+            'St. Elizabeth alone accounts for 202 of 307 total',
+            'livelihood participants — 66% of the entire sector.',
+            'The remaining three Critical parishes each hold',
+            'fewer than 45 participants, with no livelihood',
+            'programming at all in Clarendon or Manchester.'
+          ],
+          extraAnnotations: [
+            { parish: 'St. Elizabeth', text: '66% of portfolio', color: '#d4a017', fs: 10, italic: false },
+          ],
+          footer: 'NVI from FFTP Jamaica Needs Assessment v3.0, September 23, 2026. Livelihood participants from IO Dashboard September 17, 2026, revised target by parish. Livelihood Gap Score = 5.7 (High, parish-assigned). Full-portfolio completion 72% — gap would be 2.2.',
+          fullWidth: false
+        },
+        {
+          key: 'i', color: '#7c3aed', yLabel: 'FFTP school buildings', yMaxOverride: null,
+          title: 'Infrastructure investment is thin in Trelawny and St. James',
+          subtitle: 'Each parish plotted by NVI score against FFTP school buildings targeted.',
+          goldParish: 'Trelawny',
+          annotation: [
+            'Trelawny has 25 Priority 1 schools in MOE data yet',
+            'only 2 FFTP school buildings targeted — the lowest',
+            'among Critical parishes. St. Ann (Medium tier,',
+            'NVI 5.20) has 4 buildings — more than Trelawny',
+            'or St. James (High, NVI 7.75).'
+          ],
+          extraAnnotations: [],
+          footer: 'NVI from FFTP Jamaica Needs Assessment v3.0, September 23, 2026. Infrastructure figures from IO Dashboard September 17, 2026. Sector is 100% donor-earmarked (FFTP USA, FFTP CA, CIBC). Infrastructure Gap Score = 6.9 (Critical).',
+          fullWidth: true
+        },
+      ];
+
+      let html = '';
+
+      chartConfigs.forEach(cfg => {
+        const vals = scatterParishes.map(p => p[cfg.key]);
+        const maxVal = Math.max(...vals);
+        const yMaxVal = cfg.yMaxOverride || Math.ceil(maxVal * 1.25);
+
+        const yTicks = [];
+        const step = yMaxVal <= 25 ? 5 : yMaxVal <= 50 ? 10 : yMaxVal <= 100 ? 25 : 50;
+        for (let t = 0; t <= yMaxVal; t += step) { yTicks.push(t); }
+        if (yTicks[yTicks.length - 1] < yMaxVal) yTicks.push(yMaxVal);
+
+        let svg = '<svg viewBox="0 0 ' + SVG_W + ' ' + SVG_H + '" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family:Inter,sans-serif;overflow:visible;">';
+
+        yTicks.forEach(t => {
+          const y = yPos(t, yMaxVal);
+          svg += '<line x1="' + ML + '" y1="' + y + '" x2="' + (ML + CW) + '" y2="' + y + '" stroke="#f3f4f6" stroke-width="1"/>';
+        });
+
+        svg += '<line x1="' + dividerX + '" y1="' + MT + '" x2="' + dividerX + '" y2="' + (MT + CH) + '" stroke="#9ca3af" stroke-dasharray="4,4" stroke-width="1"/>';
+        const leftCenterX = (ML + dividerX) / 2;
+        const rightCenterX = (dividerX + ML + CW) / 2;
+        svg += '<text x="' + leftCenterX + '" y="22" text-anchor="middle" font-size="9" fill="#9ca3af">High and below</text>';
+        svg += '<text x="' + rightCenterX + '" y="22" text-anchor="middle" font-size="9" fill="#9ca3af">Critical tier</text>';
+
+        svg += '<line x1="' + ML + '" y1="' + (MT + CH) + '" x2="' + (ML + CW) + '" y2="' + (MT + CH) + '" stroke="#e5e7eb" stroke-width="1"/>';
+        svg += '<line x1="' + ML + '" y1="' + MT + '" x2="' + ML + '" y2="' + (MT + CH) + '" stroke="#e5e7eb" stroke-width="1"/>';
+
+        [4,5,6,7,8,9,10].forEach(v => {
+          const x = xPos(v);
+          svg += '<line x1="' + x + '" y1="' + (MT + CH) + '" x2="' + x + '" y2="' + (MT + CH + 5) + '" stroke="#9ca3af" stroke-width="1"/>';
+          svg += '<text x="' + x + '" y="' + (MT + CH + 18) + '" text-anchor="middle" font-size="10" fill="#6b7280">' + v + '</text>';
+        });
+
+        yTicks.forEach(t => {
+          const y = yPos(t, yMaxVal);
+          svg += '<line x1="' + (ML - 5) + '" y1="' + y + '" x2="' + ML + '" y2="' + y + '" stroke="#9ca3af" stroke-width="1"/>';
+          svg += '<text x="' + (ML - 8) + '" y="' + (y + 3.5) + '" text-anchor="end" font-size="10" fill="#6b7280">' + t + '</text>';
+        });
+
+        svg += '<text x="' + (ML + CW / 2) + '" y="' + (MT + CH + 40) + '" text-anchor="middle" font-size="10" fill="#6b7280">NVI composite vulnerability score</text>';
+        svg += '<text x="14" y="' + (MT + CH / 2) + '" text-anchor="middle" font-size="9" fill="#6b7280" transform="rotate(-90, 14, ' + (MT + CH / 2) + ')">' + cfg.yLabel + '</text>';
+
+        const dots = scatterParishes.map(p => {
+          const val = p[cfg.key];
+          const isGold = p.name === cfg.goldParish;
+          const cx = xPos(p.nvi);
+          const cy = yPos(val, yMaxVal);
+          return { name: p.name, val, nvi: p.nvi, cx, cy, isGold, color: isGold ? '#d4a017' : '#1a3a5c' };
+        });
+
+        const sortedDots = [...dots].sort((a, b) => a.cy - b.cy);
+        const labelPositions = {};
+        const usedYs = [];
+
+        sortedDots.forEach(d => {
+          let labelY = d.cy + 4;
+          for (let attempt = 0; attempt < 8; attempt++) {
+            let collision = false;
+            for (const uy of usedYs) {
+              if (Math.abs(labelY - uy) < 13) {
+                collision = true;
+                break;
+              }
+            }
+            if (!collision) break;
+            labelY += 13;
+          }
+          usedYs.push(labelY);
+          labelPositions[d.name] = labelY;
+        });
+
+        dots.forEach(d => {
+          svg += '<circle cx="' + d.cx + '" cy="' + d.cy + '" r="8" fill="' + d.color + '" stroke="white" stroke-width="1.5"/>';
+        });
+
+        dots.forEach(d => {
+          const ly = labelPositions[d.name];
+          svg += '<text x="' + (d.cx + 13) + '" y="' + ly + '" font-size="9" fill="' + d.color + '" text-anchor="start" font-weight="500">' + d.name + '</text>';
+        });
+
+        cfg.extraAnnotations.forEach(ea => {
+          const d = dots.find(dd => dd.name === ea.parish);
+          if (!d) return;
+          const aY = d.cy - 14;
+          svg += '<text x="' + (d.cx + 13) + '" y="' + aY + '" font-size="' + ea.fs + '" fill="' + ea.color + '" text-anchor="start"' + (ea.italic ? ' font-style="italic"' : '') + '>' + ea.text + '</text>';
+        });
+
+        const annBoxX = 70;
+        const annBoxY = 35;
+        const annLineH = 14;
+        const annLines = cfg.annotation;
+        const annBoxW = 310;
+        const annBoxH = annLines.length * annLineH + 16;
+        svg += '<rect x="' + annBoxX + '" y="' + annBoxY + '" width="' + annBoxW + '" height="' + annBoxH + '" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>';
+        annLines.forEach((line, idx) => {
+          svg += '<text x="' + (annBoxX + 10) + '" y="' + (annBoxY + 16 + idx * annLineH) + '" font-size="10" fill="#1a3a5c" font-weight="600">' + line + '</text>';
+        });
+
+        svg += '</svg>';
+
+        const colSpan = cfg.fullWidth ? ' lg:col-span-2' : '';
+        html += '<div class="card p-5' + colSpan + '">' +
+          '<h4 class="text-sm font-bold mb-0.5" style="color:var(--navy);">' + cfg.title + '</h4>' +
+          '<p class="text-xs mb-3" style="color:var(--text-sec);">' + cfg.subtitle + '</p>' +
+          svg +
+          '<p class="text-[10px] mt-3 italic leading-relaxed" style="color:#9ca3af;">' + cfg.footer + '</p></div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    // === RENDER ALLOCATION TAB ===
+    function renderAllocTab() {
+      const grid = document.getElementById("alloc-sector-grid");
+      const summaryTbody = document.getElementById("alloc-summary-tbody");
+      if (!grid || !summaryTbody) return;
+
+      let gridHTML = '';
+
+      allocSectors.forEach(sec => {
+        const isInfra = sec.tbd === 0;
+        const colSpan = sec.name === 'Infrastructure' ? ' lg:col-span-2' : '';
+
+        let tableHTML = '<div style="overflow-x:auto;width:100%;"><table class="w-full text-xs mb-3"><thead><tr style="background:#f3f4f6;">' +
+          '<th class="text-left py-2 px-2 font-semibold">Parish</th>' +
+          '<th class="text-center py-2 px-2 font-semibold">NVI</th>' +
+          '<th class="text-center py-2 px-2 font-semibold">Current</th>' +
+          '<th class="text-center py-2 px-2 font-semibold">' + (isInfra ? 'Priority' : '+Rec') + '</th>' +
+          '<th class="text-center py-2 px-2 font-semibold">' + (isInfra ? 'Total' : 'New Total') + '</th>' +
+          '<th class="text-left py-2 px-2 font-semibold">Rationale</th></tr></thead><tbody>';
+
+        sec.rows.forEach((r, ri) => {
+          const bg = ri % 2 === 1 ? 'background:#f9fafb;' : '';
+          const newTotal = r.cur + r.add;
+          const addLabel = isInfra ? '<span class="text-[10px]" style="color:#9ca3af;">#' + (ri + 1) + '</span>' : '<span class="text-[10px] font-semibold" style="color:' + sec.color + ';">+' + r.add.toLocaleString() + '</span>';
+          tableHTML += '<tr style="border-bottom:1px solid var(--border);' + bg + '">' +
+            '<td class="py-1.5 px-2 font-medium whitespace-nowrap">' + r.p + '</td>' +
+            '<td class="text-center py-1.5 px-2 tabular-nums">' + r.nvi.toFixed(2) + '</td>' +
+            '<td class="text-center py-1.5 px-2 tabular-nums">' + r.cur.toLocaleString() + '</td>' +
+            '<td class="text-center py-1.5 px-2">' + addLabel + '</td>' +
+            '<td class="text-center py-1.5 px-2 tabular-nums font-semibold">' + newTotal.toLocaleString() + '</td>' +
+            '<td class="py-1.5 px-2 text-[10px] leading-snug" style="color:var(--text-sec);">' + r.rat + '</td></tr>';
+        });
+        tableHTML += '</tbody></table></div>';
+
+        const maxNewTotal = Math.max(...sec.rows.map(r => r.cur + r.add));
+        const barMaxW = 280;
+        const barStartX = 120;
+        const barH = 14;
+        const rowGap = 32;
+        const startY = 28;
+        const svgH = startY + sec.rows.length * rowGap + 10;
+
+        let svg = '<svg viewBox="0 0 500 ' + svgH + '" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family:Inter,sans-serif;overflow:visible;">';
+        if (!isInfra) {
+          svg += '<rect x="320" y="4" width="10" height="10" rx="2" fill="#1a3a5c" opacity="0.85"/>';
+          svg += '<text x="334" y="13" font-size="9" fill="#374151">Current</text>';
+          svg += '<rect x="390" y="4" width="10" height="10" rx="2" fill="' + sec.color + '" opacity="0.4"/>';
+          svg += '<text x="404" y="13" font-size="9" fill="#374151">+Recommended</text>';
+        } else {
+          svg += '<rect x="350" y="4" width="10" height="10" rx="2" fill="#7c3aed" opacity="0.85"/>';
+          svg += '<text x="364" y="13" font-size="9" fill="#374151">Current buildings</text>';
+        }
+
+        sec.rows.forEach((r, ri) => {
+          const y = startY + ri * rowGap;
+          const newTotal = r.cur + r.add;
+          const scale = maxNewTotal > 0 ? barMaxW / maxNewTotal : 0;
+          const curW = Math.max(r.cur * scale, 0);
+          const addW = Math.max(r.add * scale, 0);
+
+          svg += '<text x="115" y="' + (y + barH / 2 + 4) + '" text-anchor="end" font-size="11" fill="#374151">' + r.p + '</text>';
+          if (curW > 0) {
+            svg += '<rect x="' + barStartX + '" y="' + y + '" width="' + curW + '" height="' + barH + '" rx="3" fill="#1a3a5c" opacity="0.85"/>';
+          }
+          if (!isInfra && addW > 0) {
+            svg += '<rect x="' + (barStartX + curW) + '" y="' + y + '" width="' + addW + '" height="' + barH + '" rx="3" fill="' + sec.color + '" opacity="0.4"/>';
+          }
+
+          const labelX = barStartX + curW + addW + 6;
+          let labelText;
+          if (sec.name === 'Food Security' && newTotal > 999) {
+            labelText = (newTotal / 1000).toFixed(newTotal >= 10000 ? 0 : 1) + 'k';
+          } else {
+            labelText = newTotal.toLocaleString();
+          }
+          svg += '<text x="' + labelX + '" y="' + (y + barH / 2 + 4) + '" font-size="10" fill="#374151" font-weight="600">' + labelText + '</text>';
+        });
+
+        svg += '</svg>';
+
+        const noteHTML = sec.note ? '<div class="rounded-lg p-2.5 mt-2" style="background:#fffbeb;border:1px solid #fde68a;"><p class="text-[10px] leading-relaxed" style="color:#92400e;">' + sec.note + '</p></div>' : '';
+
+        const tbdPillText = isInfra ? '0 TBD · Next-Investment Priority' : sec.tbd.toLocaleString() + ' TBD ' + sec.unit;
+        const tbdPillBg = isInfra ? '#f3f4f6' : sec.color + '18';
+        const tbdPillColor = isInfra ? '#6b7280' : sec.color;
+
+        gridHTML += '<div class="card p-5' + colSpan + '" style="border-top:3px solid ' + sec.color + ';">' +
+          '<div class="flex items-center gap-3 mb-3"><span class="text-lg">' + sec.emoji + '</span>' +
+          '<h4 class="text-sm font-bold" style="color:var(--navy);">' + sec.name + '</h4>' +
+          '<span class="text-[10px] font-semibold px-2.5 py-0.5 rounded-full" style="background:' + tbdPillBg + ';color:' + tbdPillColor + ';">' + tbdPillText + '</span></div>' +
+          tableHTML + svg + noteHTML + '</div>';
+      });
+
+      grid.innerHTML = gridHTML;
+
+      let sHTML = '';
+      allocSummary.forEach((r, i) => {
+        const bg = i % 2 === 1 ? 'background:#f9fafb;' : '';
+        const tierBadge = '<span class="tier-badge-' + r.tier.toLowerCase() + ' text-[10px] font-semibold px-2 py-0.5 rounded-full">' + r.tier + '</span>';
+
+        let dirBadge = '';
+        if (r.dir === 'improve') dirBadge = '<span class="dir-improve">↑ Improves</span>';
+        else if (r.dir === 'correct') dirBadge = '<span class="dir-correct">✓ Corrected</span>';
+        else if (r.dir === 'slight') dirBadge = '<span class="dir-slight">~ Slight change</span>';
+        else if (r.dir === 'worsen') dirBadge = '<span class="dir-worsen">↓ Worsens</span>';
+        else dirBadge = '<span class="dir-same">— No change</span>';
+
+        sHTML += '<tr style="border-bottom:1px solid var(--border);' + bg + '">' +
+          '<td class="py-2.5 px-3 font-medium whitespace-nowrap">' + r.p + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums">' + r.nvi.toFixed(2) + '</td>' +
+          '<td class="text-center py-2.5 px-2">' + tierBadge + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums">' + r.cur.toLocaleString() + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums font-semibold" style="color:' + (r.add > 0 ? '#16a34a' : '#9ca3af') + ';">' + (r.add > 0 ? '+' + r.add.toLocaleString() : '—') + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums font-bold">' + r.newT.toLocaleString() + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums">' + r.ideal + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums">' + r.before + '</td>' +
+          '<td class="text-center py-2.5 px-2 tabular-nums">' + r.after + '</td>' +
+          '<td class="text-center py-2.5 px-2">' + dirBadge + '</td></tr>';
+      });
+
+      const totalCur = allocSummary.reduce((s, r) => s + r.cur, 0);
+      const totalAdd = allocSummary.reduce((s, r) => s + r.add, 0);
+      const totalNew = allocSummary.reduce((s, r) => s + r.newT, 0);
+      sHTML += '<tr style="background:#f0f4f8;border-top:2px solid var(--navy);">' +
+        '<td class="py-2.5 px-3 font-bold text-xs">Total</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums">' + totalCur.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums" style="color:#16a34a;">+' + totalAdd.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums">' + totalNew.toLocaleString() + '</td>' +
+        '<td class="text-center py-2.5 px-2 font-bold text-xs tabular-nums">100%</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td>' +
+        '<td class="text-center py-2.5 px-2 text-xs">—</td></tr>';
+
+      summaryTbody.innerHTML = sHTML;
+    }
+
+    // === TAB SWITCHING ===
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const panels = {
+      parish: document.getElementById("panel-parish"),
+      sector: document.getElementById("panel-sector"),
+      earmark: document.getElementById("panel-earmark"),
+      scatter: document.getElementById("panel-scatter"),
+      alloc: document.getElementById("panel-alloc"),
+    };
+
+    function switchTab(tabId) {
+      tabButtons.forEach(btn => {
+        const isActive = btn.dataset.tab === tabId;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      Object.entries(panels).forEach(([key, panel]) => {
+        if (panel) panel.classList.toggle("hidden", key !== tabId);
+      });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", function() { switchTab(this.dataset.tab); });
+    });
+
+    // Metric toggle buttons
+    document.getElementById('btn-people').addEventListener('click', function() { setMetric('people'); });
+    document.getElementById('btn-units').addEventListener('click', function() { setMetric('units'); });
+    document.getElementById('btn-coverage').addEventListener('click', function() { setMetric('coverage'); });
+
+    // === INIT ===
+    renderParishTable();
+    renderMatrix();
+    renderGapCards();
+    renderSectorCards();
+    renderStatusBars();
+    renderEarmarkTable();
+    renderScatterTab();
+    renderAllocTab();
+
+    // Dynamically sync body top-padding to actual fixed header height
+    function syncHeaderPadding() {
+      var header = document.querySelector('.header-fixed');
+      if (header) {
+        document.body.style.paddingTop = header.offsetHeight + 'px';
+      }
+    }
+    window.addEventListener('load', syncHeaderPadding);
+    window.addEventListener('resize', syncHeaderPadding);
+    setTimeout(syncHeaderPadding, 300);
+  </script>
+</body>
+</html>
