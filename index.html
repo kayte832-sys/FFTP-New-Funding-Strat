@@ -790,6 +790,7 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'
   </div>
 
   <script>
+  document.addEventListener("DOMContentLoaded", function() {
     // === LUCIDE ICONS ===
     // === DATA ===
     const NVI_SUM = 77.87;
@@ -1701,6 +1702,8 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'
     window.addEventListener('load', syncHeaderPadding);
     window.addEventListener('resize', syncHeaderPadding);
     setTimeout(syncHeaderPadding, 300);
-  </script>
+  
+  });
+</script>
 </body>
 </html>
