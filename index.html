@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!-- FFTP Jamaica — Need vs. Funding Alignment Dashboard v20 -->
-<!-- SELF-CONTAINED — No external CDN — Open in any browser — October 2026 -->
+<!-- SELF-CONTAINED — No external CDN — Open in any browser — November 2026 -->
 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FFTP Jamaica — Need vs. Funding Alignment Dashboard · v20 · October 2026</title>
+  <title>FFTP Jamaica — Need vs. Funding Alignment Dashboard · v20 · November 2026</title>
 <style>
 
 /* ═══ INLINE UTILITY CSS (replaces Tailwind CDN) ════════════════════════════ */
@@ -168,21 +168,22 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
         <p data-id="6" id="subtitle-main-g7h8" class="text-xs" style="color:#b9cce0;">New Investment Strategy Dashboard · Where New Donations Should Go</p>
       </div>
       <div data-id="7" id="header-right-i9j0" class="text-xs md:text-right" style="color:#b9cce0;">
-        <span data-id="8">IO Dashboard · 17 September 2026</span><br data-id="9" />
-        <span data-id="10">New Funding Strategy · Fundraising & Donor Relations · 17 September 2026</span>
+        <span data-id="8">IO Dashboard · 2 November 2026</span><br data-id="9" />
+        <span data-id="10">New Funding Strategy · Fundraising & Donor Relations · 2 November 2026</span>
       </div>
     </header>
     <div data-id="11" style="background:#fffbeb;border-bottom:2px solid #fde68a;padding:0.5rem 2rem;display:flex;align-items:flex-start;gap:0.75rem;flex-wrap:nowrap;">
       <span data-id="12" style="font-size:0.75rem;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.06em;">Purpose</span>
-      <span data-id="13" style="font-size:0.78rem;color:#78350f;line-height:1.4;">This dashboard governs <strong data-id="14">new, uncommitted donation decisions only</strong>. Projects already underway are being completed through existing donor commitments and are not subject to reallocation. The data shown identifies where new funding will achieve the greatest impact against the most vulnerable populations, as ranked by the NVI.</span>
+      <span data-id="13" style="font-size:0.78rem;color:#78350f;line-height:1.4;">This dashboard governs <strong data-id="14">new, uncommitted donation decisions only</strong>. Projects already underway are being completed through existing donor commitments and are not subject to reallocation. The data shown identifies where new funding will achieve the greatest impact against the most vulnerable populations, as ranked by the NVI. <strong>New:</strong> the Education Gap tab adds school and early childhood institution (ECI) damage against FFTP's response.</span>
     </div>
     <nav data-id="15" id="tab-strip-k1l2" class="tab-strip px-4 md:px-8 flex gap-0 no-print overflow-x-auto" role="tablist">
       <button data-id="16" class="tab-btn active" data-tab="parish" role="tab" aria-selected="true">Parish Alignment</button>
       <button data-id="17" class="tab-btn" data-tab="sector" role="tab" aria-selected="false">Sector Alignment</button>
-      <button data-id="18" class="tab-btn" data-tab="washgap" role="tab" aria-selected="false">💧 WASH Gap</button>
       <button data-id="19" class="tab-btn" data-tab="earmark" role="tab" aria-selected="false">Investment Gaps</button>
       <button data-id="20" class="tab-btn" data-tab="scatter" role="tab" aria-selected="false">Where Current Delivery Falls Short</button>
       <button data-id="21" class="tab-btn" data-tab="alloc" role="tab" aria-selected="false">New Investment Allocation</button>
+      <button class="tab-btn" data-tab="edugap" role="tab" aria-selected="false">&#x1F4DA; Education Gap</button>
+      <button data-id="18" class="tab-btn" data-tab="washgap" role="tab" aria-selected="false">💧 WASH Gap</button>
     </nav>
   </div>
 
@@ -536,6 +537,13 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
         <p data-id="257" style="font-size:0.8rem;color:#374151;margin-bottom:1rem;padding:0.75rem 1rem;background:#f0f4f8;border-radius:6px;border-left:3px solid #1a3a5c;margin-top:0.75rem;">Year One delivery was shaped by donor designations — when a donor specifies a parish, programming follows that designation regardless of NVI ranking. This is appropriate for restricted funding. The data below shows where those designations have left gaps against the highest-need populations. Each row is an investment opportunity for new, unrestricted donations.</p>
       </div>
 
+
+      <div class="rounded-xl p-4 mb-6" style="background:#f0fdf4;border:1px solid #86efac;border-left:5px solid #1a4731;">
+        <p class="text-xs font-bold mb-1" style="color:#14532d;">&#x1F4DA; Schools &amp; ECIs: a gap that earmarked funding has not closed</p>
+        <p class="text-xs leading-relaxed" style="color:#166534;margin:0 0 0.5rem 0;">382 early childhood institutions (ECIs) were damaged across the 5 priority parishes. FFTP has completed 6 school repairs (all government-funded Infant/Primary schools) and has 27 more school projects committed, leaving 355 ECIs unaddressed. The 104 damaged basic schools have no government repair programme. Infrastructure is a 100% earmarked sector, so closing this gap depends on new designated or unrestricted school funding.</p>
+        <button type="button" data-goto="edugap" style="font-size:0.72rem;font-weight:600;padding:0.3rem 0.8rem;border-radius:999px;border:1.5px solid #1a4731;background:#fff;color:#1a4731;cursor:pointer;">View the Education Gap tab &rarr;</button>
+      </div>
+
       <!-- FUNDING OVERVIEW -->
       <div data-id="258" id="funding-overview-s9t0" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div data-id="259" id="fund-card1-u1v2" class="rounded-xl p-5 text-center" style="background:var(--navy);color:white;">
@@ -678,6 +686,11 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
         <h2 data-id="347" id="scatter-title-t6u7" class="text-xl md:text-2xl font-bold" style="color:var(--navy);">Vulnerability vs. Delivery — Seeing the Gap Clearly, Sector by Sector</h2>
         <p data-id="348" id="scatter-subtitle-v8w9" class="text-sm" style="color:var(--text-sec);margin-top:0.5rem;margin-bottom:1rem;">Each chart below plots NVI vulnerability against FFTP delivery for one sector across all parishes. Parishes in the upper-left corner of each chart are the most important: high vulnerability, low delivery. That is where the need is greatest and the gap is widest. Parishes in the lower-right have received more delivery relative to their vulnerability — not because they are unimportant, but because Year One donor designations and operational access patterns concentrated resources there. The Coverage Rate column (Tab 1) puts this in human terms: St. James, with 188,656 people in need, has an estimated FFTP coverage rate of 0.3%. Hanover, with 64,198 people in need, also sits at 1.3%. Trelawny is at 1.8%. These are the numbers behind the charts — and the investment case for Year Two.</p>
       </div>
+            <div class="rounded-xl p-4 mb-6" style="background:#f0fdf4;border:1px solid #86efac;border-left:5px solid #1a4731;">
+        <p class="text-xs font-bold mb-1" style="color:#14532d;">&#x1F4DA; Read alongside school and ECI damage</p>
+        <p class="text-xs leading-relaxed" style="color:#166534;margin:0 0 0.5rem 0;">The Infrastructure chart counts FFTP school buildings only. The Education Gap tab shows the other side: of 106 damaged ECIs in St. James, FFTP has completed 1 and committed 1; of 58 in Trelawny, none are completed and 2 are committed. Both are the parishes where infrastructure investment is thinnest.</p>
+        <button type="button" data-goto="edugap" style="font-size:0.72rem;font-weight:600;padding:0.3rem 0.8rem;border-radius:999px;border:1.5px solid #1a4731;background:#fff;color:#1a4731;cursor:pointer;">View the Education Gap tab &rarr;</button>
+      </div>
       <div data-id="349" id="scatter-grid-x0y1" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
     </section>
 
@@ -692,6 +705,13 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
           <span data-id="356" class="text-[11px] font-semibold px-3 py-1 rounded-full text-white" style="background:#2563eb;">Layer 2: Sector Unmet Need · 25–30%</span>
           <span data-id="357" class="text-[11px] font-semibold px-3 py-1 rounded-full" style="background:#f3f4f6;color:#374151;border:1px solid #e5e7eb;">Layer 3: Partner Feasibility · Pass/Fail Gate</span>
         </div>
+      </div>
+
+
+      <div class="rounded-xl p-4 mb-6" style="background:#f0fdf4;border:1px solid #86efac;border-left:5px solid #1a4731;">
+        <p class="text-xs font-bold mb-1" style="color:#14532d;">&#x1F4DA; Schools &amp; ECIs are outside this allocation</p>
+        <p class="text-xs leading-relaxed" style="color:#166534;margin:0 0 0.5rem 0;">Infrastructure has zero unassigned units, so the 3,001 units above do not address school repairs. 355 ECIs remain unaddressed by FFTP: Westmoreland 119, St. James 105, Trelawny 56, St. Elizabeth 45, Hanover 30. New school-repair funding would need to be designated separately by parish.</p>
+        <button type="button" data-goto="edugap" style="font-size:0.72rem;font-weight:600;padding:0.3rem 0.8rem;border-radius:999px;border:1.5px solid #1a4731;background:#fff;color:#1a4731;cursor:pointer;">View the Education Gap tab &rarr;</button>
       </div>
 
       <!-- New Investment Model Explanation -->
@@ -762,12 +782,243 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
       </div>
     </section>
 
+    <!-- ═══════════════ TAB 7: EDUCATION GAP ═══════════════ -->
+    <section id="panel-edugap" class="tab-panel hidden">
+      <div class="mb-6" style="padding-top:1rem;">
+        <h2 class="text-xl md:text-2xl font-bold" style="color:var(--navy);">Education Gap — ECI Damage vs. FFTP Response</h2>
+        <p class="text-sm mt-1" style="color:var(--text-sec);">
+          Cross-reference of the MoESYI ECI Hurricane Melissa Impact Tracker (Feb 18, 2026) with FFTP Jamaica IO Dashboard (Week 13, Oct 2026).
+          382 early childhood institutions damaged across FFTP&#8217;s 5 priority parishes &mdash; representing 59.4% of all nationally damaged ECIs.
+        </p>
+      </div>
+
+      <!-- KEY CALLOUTS -->
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="p-4 rounded-xl flex-1" style="min-width:160px;background:#fef2f2;border:1px solid #fca5a5;">
+          <div class="text-2xl font-bold" style="color:#b91c1c;">382</div>
+          <div class="text-sm font-semibold" style="color:#7f1d1d;">ECIs Damaged</div>
+          <div class="text-xs mt-1" style="color:#991b1b;">Across 5 priority parishes</div>
+        </div>
+        <div class="p-4 rounded-xl flex-1" style="min-width:160px;background:#fff7ed;border:1px solid #fdba74;">
+          <div class="text-2xl font-bold" style="color:#c2410c;">104</div>
+          <div class="text-sm font-semibold" style="color:#7c2d12;">Basic Schools</div>
+          <div class="text-xs mt-1" style="color:#9a3412;">No govt repair programme</div>
+        </div>
+        <div class="p-4 rounded-xl flex-1" style="min-width:160px;background:#fefce8;border:1px solid #fde047;">
+          <div class="text-2xl font-bold" style="color:#a16207;">17,755</div>
+          <div class="text-sm font-semibold" style="color:#713f12;">Children Impacted</div>
+          <div class="text-xs mt-1" style="color:#92400e;">All ECI types combined</div>
+        </div>
+        <div class="p-4 rounded-xl flex-1" style="min-width:160px;background:#f0fdf4;border:1px solid #86efac;">
+          <div class="text-2xl font-bold" style="color:#15803d;">6</div>
+          <div class="text-sm font-semibold" style="color:#14532d;">FFTP Completed</div>
+          <div class="text-xs mt-1" style="color:#166534;">All Infant/Primary (govt-funded)</div>
+        </div>
+        <div class="p-4 rounded-xl flex-1" style="min-width:160px;background:#fef2f2;border:1px solid #fca5a5;">
+          <div class="text-2xl font-bold" style="color:#b91c1c;">355</div>
+          <div class="text-sm font-semibold" style="color:#7f1d1d;">Unaddressed by FFTP</div>
+          <div class="text-xs mt-1" style="color:#991b1b;">92.9% of all damaged ECIs</div>
+        </div>
+      </div>
+
+      <!-- BAR CHART -->
+      <div class="p-4 rounded-xl mb-6" style="background:#fff;border:1px solid #e2e8f0;">
+        <h3 class="text-base font-bold mb-4" style="color:var(--navy);">ECIs by Parish &mdash; Damaged vs. FFTP Committed vs. Completed</h3>
+        <div id="edu-chart" style="width:100%;overflow-x:auto;">
+          <svg id="edu-bar-svg" width="100%" viewBox="0 0 760 320" style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;overflow:visible;"></svg>
+        </div>
+        <div class="flex flex-wrap gap-4 mt-3" style="font-size:0.75rem;">
+          <span><span style="display:inline-block;width:12px;height:12px;background:#fca5a5;border-radius:2px;margin-right:4px;"></span>Total Damaged (ECI Tracker)</span>
+          <span><span style="display:inline-block;width:12px;height:12px;background:#fdba74;border-radius:2px;margin-right:4px;"></span>FFTP Committed (In Progress + Not Started)</span>
+          <span><span style="display:inline-block;width:12px;height:12px;background:#86efac;border-radius:2px;margin-right:4px;"></span>FFTP Completed</span>
+        </div>
+      </div>
+
+      <!-- COMBINED SUMMARY TABLE -->
+      <div class="p-4 rounded-xl mb-6" style="background:#fff;border:1px solid #e2e8f0;overflow-x:auto;">
+        <h3 class="text-base font-bold mb-3" style="color:var(--navy);">All ECIs Combined &mdash; Full Picture + FFTP Completions</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+          <thead>
+            <tr style="background:#1a4731;color:#fff;">
+              <th style="padding:8px 10px;text-align:left;white-space:nowrap;">Parish</th>
+              <th style="padding:8px 6px;text-align:center;">Total ECIs<br>Damaged</th>
+              <th style="padding:8px 6px;text-align:center;">Basic<br>Schools</th>
+              <th style="padding:8px 6px;text-align:center;">Infant/<br>ECI</th>
+              <th style="padding:8px 6px;text-align:center;">Secondary<br>&amp; Other</th>
+              <th style="padding:8px 6px;text-align:center;">Children<br>Impacted</th>
+              <th style="padding:8px 6px;text-align:center;">Repair Cost<br>(USD)</th>
+              <th style="padding:8px 6px;text-align:center;">&#x2705; FFTP<br>Completed</th>
+              <th style="padding:8px 6px;text-align:center;">FFTP<br>Committed</th>
+              <th style="padding:8px 6px;text-align:center;background:#7f1d1d;">Unaddressed<br>by FFTP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#fff;">
+              <td style="padding:8px 10px;font-weight:600;">Westmoreland</td>
+              <td style="padding:8px 6px;text-align:center;">129</td>
+              <td style="padding:8px 6px;text-align:center;">5</td>
+              <td style="padding:8px 6px;text-align:center;">93</td>
+              <td style="padding:8px 6px;text-align:center;">31</td>
+              <td style="padding:8px 6px;text-align:center;">5,732</td>
+              <td style="padding:8px 6px;text-align:center;">~US$1.79M</td>
+              <td style="padding:8px 6px;text-align:center;color:#15803d;font-weight:700;">1</td>
+              <td style="padding:8px 6px;text-align:center;">10</td>
+              <td style="padding:8px 6px;text-align:center;font-weight:700;color:#b91c1c;">119</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:8px 10px;font-weight:600;">Hanover</td>
+              <td style="padding:8px 6px;text-align:center;">36</td>
+              <td style="padding:8px 6px;text-align:center;">20</td>
+              <td style="padding:8px 6px;text-align:center;">12</td>
+              <td style="padding:8px 6px;text-align:center;">4</td>
+              <td style="padding:8px 6px;text-align:center;">1,539</td>
+              <td style="padding:8px 6px;text-align:center;">~US$256K</td>
+              <td style="padding:8px 6px;text-align:center;color:#6b7280;">0</td>
+              <td style="padding:8px 6px;text-align:center;">6</td>
+              <td style="padding:8px 6px;text-align:center;font-weight:700;color:#b91c1c;">30</td>
+            </tr>
+            <tr style="background:#fff;">
+              <td style="padding:8px 10px;font-weight:600;">St. Elizabeth</td>
+              <td style="padding:8px 6px;text-align:center;">53</td>
+              <td style="padding:8px 6px;text-align:center;">12</td>
+              <td style="padding:8px 6px;text-align:center;">36</td>
+              <td style="padding:8px 6px;text-align:center;">5</td>
+              <td style="padding:8px 6px;text-align:center;">2,654</td>
+              <td style="padding:8px 6px;text-align:center;">~US$489K</td>
+              <td style="padding:8px 6px;text-align:center;color:#15803d;font-weight:700;">4</td>
+              <td style="padding:8px 6px;text-align:center;">8</td>
+              <td style="padding:8px 6px;text-align:center;font-weight:700;color:#c2410c;">45</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:8px 10px;font-weight:600;">Trelawny</td>
+              <td style="padding:8px 6px;text-align:center;">58</td>
+              <td style="padding:8px 6px;text-align:center;">25</td>
+              <td style="padding:8px 6px;text-align:center;">29</td>
+              <td style="padding:8px 6px;text-align:center;">4</td>
+              <td style="padding:8px 6px;text-align:center;">2,297</td>
+              <td style="padding:8px 6px;text-align:center;">~US$291K</td>
+              <td style="padding:8px 6px;text-align:center;color:#6b7280;">0</td>
+              <td style="padding:8px 6px;text-align:center;">2</td>
+              <td style="padding:8px 6px;text-align:center;font-weight:700;color:#b91c1c;">56</td>
+            </tr>
+            <tr style="background:#fff;">
+              <td style="padding:8px 10px;font-weight:600;">St. James</td>
+              <td style="padding:8px 6px;text-align:center;">106</td>
+              <td style="padding:8px 6px;text-align:center;">42</td>
+              <td style="padding:8px 6px;text-align:center;">24</td>
+              <td style="padding:8px 6px;text-align:center;">40</td>
+              <td style="padding:8px 6px;text-align:center;">5,533</td>
+              <td style="padding:8px 6px;text-align:center;">~US$1.42M</td>
+              <td style="padding:8px 6px;text-align:center;color:#15803d;font-weight:700;">1</td>
+              <td style="padding:8px 6px;text-align:center;">1</td>
+              <td style="padding:8px 6px;text-align:center;font-weight:700;color:#b91c1c;">105</td>
+            </tr>
+            <tr style="background:#1a4731;color:#fff;font-weight:700;">
+              <td style="padding:8px 10px;">5-Parish Total</td>
+              <td style="padding:8px 6px;text-align:center;">382</td>
+              <td style="padding:8px 6px;text-align:center;">104</td>
+              <td style="padding:8px 6px;text-align:center;">194</td>
+              <td style="padding:8px 6px;text-align:center;">84</td>
+              <td style="padding:8px 6px;text-align:center;">17,755</td>
+              <td style="padding:8px 6px;text-align:center;">~US$4.25M</td>
+              <td style="padding:8px 6px;text-align:center;">6</td>
+              <td style="padding:8px 6px;text-align:center;">27</td>
+              <td style="padding:8px 6px;text-align:center;background:#7f1d1d;">355</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-xs mt-2" style="color:#6b7280;">&#x26A0;&#xFE0F; Basic schools are privately operated. No government NET repair contracts exist for basic schools. ECI tracker data: MoESYI Feb 18, 2026. FFTP data: IO Dashboard Week 13, Oct 2026. Exchange rate: J$156 = US$1.</p>
+      </div>
+
+      <!-- FFTP COMPLETED SCHOOLS TABLE -->
+      <div class="p-4 rounded-xl mb-6" style="background:#fff;border:1px solid #e2e8f0;overflow-x:auto;">
+        <h3 class="text-base font-bold mb-3" style="color:var(--navy);">FFTP Completed Schools &mdash; Cross-Referenced with ECI Tracker</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.78rem;">
+          <thead>
+            <tr style="background:#1a4731;color:#fff;">
+              <th style="padding:8px 10px;text-align:left;">Project ID</th>
+              <th style="padding:8px 10px;text-align:left;">School (IO Dashboard)</th>
+              <th style="padding:8px 10px;text-align:left;">Parish</th>
+              <th style="padding:8px 10px;text-align:left;">Type</th>
+              <th style="padding:8px 10px;text-align:center;">On ECI Tracker?</th>
+              <th style="padding:8px 10px;text-align:left;">ECI Tracker Entry</th>
+              <th style="padding:8px 10px;text-align:left;">Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#fff;">
+              <td style="padding:7px 10px;font-family:monospace;font-size:0.72rem;color:#374151;">HM-0015</td>
+              <td style="padding:7px 10px;">Siloah Primary School</td>
+              <td style="padding:7px 10px;">St. Elizabeth</td>
+              <td style="padding:7px 10px;">Primary (Govt)</td>
+              <td style="padding:7px 10px;text-align:center;background:#fef9c3;">&#x26A0;&#xFE0F; Partial</td>
+              <td style="padding:7px 10px;">Siloah Basic School [Mild]</td>
+              <td style="padding:7px 10px;color:#6b7280;font-size:0.72rem;">Different institution &mdash; same community</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:7px 10px;font-family:monospace;font-size:0.72rem;color:#374151;">HM-0027</td>
+              <td style="padding:7px 10px;">Fyffes Primary and Infant</td>
+              <td style="padding:7px 10px;">St. Elizabeth</td>
+              <td style="padding:7px 10px;">Infant/Primary (Govt)</td>
+              <td style="padding:7px 10px;text-align:center;background:#dcfce7;">&#x2705; Yes</td>
+              <td style="padding:7px 10px;">Fyffes Pen Infant Dept [Severe]</td>
+              <td style="padding:7px 10px;color:#6b7280;font-size:0.72rem;">Likely same building</td>
+            </tr>
+            <tr style="background:#fff;">
+              <td style="padding:7px 10px;font-family:monospace;font-size:0.72rem;color:#374151;">HM-0029</td>
+              <td style="padding:7px 10px;">Triumphant Infant</td>
+              <td style="padding:7px 10px;">St. James</td>
+              <td style="padding:7px 10px;">Infant/Primary (Govt)</td>
+              <td style="padding:7px 10px;text-align:center;background:#fef9c3;">&#x26A0;&#xFE0F; Partial</td>
+              <td style="padding:7px 10px;">Triumphant Basic School [Moderate]</td>
+              <td style="padding:7px 10px;color:#6b7280;font-size:0.72rem;">Different institution &mdash; same community</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:7px 10px;font-family:monospace;font-size:0.72rem;color:#374151;">HM-0031</td>
+              <td style="padding:7px 10px;">Pedro Plains Primary and Infant</td>
+              <td style="padding:7px 10px;">St. Elizabeth</td>
+              <td style="padding:7px 10px;">Infant/Primary (Govt)</td>
+              <td style="padding:7px 10px;text-align:center;background:#fee2e2;">&#x274C; Not listed</td>
+              <td style="padding:7px 10px;">Not on ECI tracker</td>
+              <td style="padding:7px 10px;color:#6b7280;font-size:0.72rem;">Absent from MoESYI dataset</td>
+            </tr>
+            <tr style="background:#fff;">
+              <td style="padding:7px 10px;font-family:monospace;font-size:0.72rem;color:#374151;">HM-0062</td>
+              <td style="padding:7px 10px;">Leeds Primary and Infant</td>
+              <td style="padding:7px 10px;">St. Elizabeth</td>
+              <td style="padding:7px 10px;">Infant/Primary (Govt)</td>
+              <td style="padding:7px 10px;text-align:center;background:#fee2e2;">&#x274C; Not listed</td>
+              <td style="padding:7px 10px;">Not on ECI tracker</td>
+              <td style="padding:7px 10px;color:#6b7280;font-size:0.72rem;">Absent from MoESYI dataset</td>
+            </tr>
+            <tr style="background:#f8fafc;">
+              <td style="padding:7px 10px;font-family:monospace;font-size:0.72rem;color:#374151;">HM-0141</td>
+              <td style="padding:7px 10px;">Bluefields Infant</td>
+              <td style="padding:7px 10px;">Westmoreland</td>
+              <td style="padding:7px 10px;">Infant/Primary (Govt)</td>
+              <td style="padding:7px 10px;text-align:center;background:#fef9c3;">&#x26A0;&#xFE0F; Partial</td>
+              <td style="padding:7px 10px;">Bluefields Basic [Severe]</td>
+              <td style="padding:7px 10px;color:#6b7280;font-size:0.72rem;">Different institution &mdash; same community</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mt-3 p-3 rounded-lg text-xs" style="background:#fef9c3;border:1px solid #fde047;color:#713f12;">
+          <strong>Key finding:</strong> All 6 FFTP-completed schools are government-funded Infant/Primary schools. Zero basic schools have been completed. Only 1 of 6 (Fyffes) has a confirmed ECI tracker match. The 3 &#x26A0;&#xFE0F; Partial matches mean FFTP repaired the government school while the privately-operated basic school <em>next door</em> remains damaged with no support programme.
+        </div>
+      </div>
+
+      <!-- NOTES -->
+      <div class="p-3 rounded-lg text-xs mb-4" style="background:#f0fdf4;border:1px solid #86efac;color:#166534;">
+        <strong>Data sources:</strong> MoESYI ECI Hurricane Melissa Impact Tracker, as at February 18, 2026 &bull; FFTP Jamaica IO Dashboard, Week 13 (5&ndash;9 Oct 2026) &bull; Exchange rate: J$156 = US$1 &bull; Gap Score Infrastructure: 6.9 &#x1F534; Critical
+      </div>
+    </section>
+
   </main>
 
   <!-- FOOTER -->
   <footer data-id="403" id="footer-main-e5f6" class="w-full px-4 md:px-8 py-5 mt-auto text-center" style="background:#f3f4f6;border-top:1px solid var(--border);">
     <p data-id="404" id="footer-text1-g7h8" class="text-[11px] leading-relaxed max-w-5xl mx-auto" style="color:var(--text-sec);">
-      FFTP Jamaica Hurricane Melissa Recovery · IO Dashboard as of 17 September 2026 · NVI v7 (6-dimension) · Quantity-based alignment (revised target) · Prepared by Information Officer function · Internal use only
+      FFTP Jamaica Hurricane Melissa Recovery · IO Dashboard as of 2 November 2026 · NVI v7 (6-dimension) · Quantity-based alignment (revised target) · Prepared by Information Officer function · Internal use only
     </p>
     <p data-id="405" id="footer-text2-i9j0" class="text-[10px] mt-2 max-w-5xl mx-auto" style="color:#9ca3af;">
       Data note: Parish-assigned quantities represent 969 units across 11 parishes. An additional 805 housing units and 5,249 monthly food kits (each feeding a family of 3 for one month) carry no confirmed parish (TBD) and are excluded from parish alignment calculations. Quantity-based alignment is more accurate than project-count alignment but understates FFTP's total delivery scope. 5 projects with no sector assignment excluded from sector calculations. Completion figures represent physical output only; no payment-submitted split.
@@ -778,7 +1029,7 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
   <!-- DOCUMENT SUITE REFERENCE -->
   <div data-id="407" style="background:#1a3a5c;color:#e2e8f0;font-size:0.7rem;padding:0.6rem 1.5rem;display:flex;flex-wrap:wrap;gap:0.5rem 1.5rem;align-items:center;margin-top:0;">
     <span data-id="408" style="font-weight:700;color:white;white-space:nowrap;">📁 Document Suite:</span>
-    <span data-id="409" style="white-space:nowrap;">📊 <strong data-id="410" style="color:white;">This Dashboard</strong> — canonical source for all NVI scores &amp; coverage rates (v16, Sep 2026)</span>
+    <span data-id="409" style="white-space:nowrap;">📊 <strong data-id="410" style="color:white;">This Dashboard</strong> — canonical source for all NVI scores &amp; coverage rates (v20, Nov 2026)</span>
     <span data-id="411" style="color:#64748b;">·</span>
     <span data-id="412" style="white-space:nowrap;">📄 NVI Parish Vulnerability Assessment Executive Summary (v4, Sep 2026)</span>
     <span data-id="413" style="color:#64748b;">·</span>
@@ -1358,7 +1609,7 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
         for (let t = 0; t <= yMaxVal; t += step) { yTicks.push(t); }
         if (yTicks[yTicks.length - 1] < yMaxVal) yTicks.push(yMaxVal);
 
-        let svg = '<svg viewBox="0 0 ' + SVG_W + ' ' + SVG_H + '" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;overflow:visible;">';
+        let svg = '<svg viewBox="0 0 ' + SVG_W + ' ' + SVG_H + '" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;overflow:visible;">';
 
         yTicks.forEach(t => {
           const y = yPos(t, yMaxVal);
@@ -1399,22 +1650,23 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
 
         const sortedDots = [...dots].sort((a, b) => a.cy - b.cy);
         const labelPositions = {};
-        const usedYs = [];
+        const usedLabels = [];
 
         sortedDots.forEach(d => {
           let labelY = d.cy + 4;
+          const lx0 = d.cx + 13, lx1 = lx0 + d.name.length * 5.2;
           for (let attempt = 0; attempt < 8; attempt++) {
             let collision = false;
-            for (const uy of usedYs) {
-              if (Math.abs(labelY - uy) < 13) {
+            for (const u of usedLabels) {
+              if (Math.abs(labelY - u.y) < 11 && lx0 < u.x1 + 4 && lx1 > u.x0 - 4) {
                 collision = true;
                 break;
               }
             }
             if (!collision) break;
-            labelY += 13;
+            labelY += 11;
           }
-          usedYs.push(labelY);
+          usedLabels.push({ x0: lx0, x1: lx1, y: labelY });
           labelPositions[d.name] = labelY;
         });
 
@@ -1500,7 +1752,7 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
         const startY = 28;
         const svgH = startY + sec.rows.length * rowGap + 10;
 
-        let svg = '<svg viewBox="0 0 500 ' + svgH + '" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;overflow:visible;">';
+        let svg = '<svg viewBox="0 0 500 ' + svgH + '" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;overflow:visible;' + (isInfra ? 'max-width:560px;display:block;margin:0 auto;' : '') + '">';
         if (!isInfra) {
           svg += '<rect x="320" y="4" width="10" height="10" rx="2" fill="#1a3a5c" opacity="0.85"/>';
           svg += '<text x="334" y="13" font-size="9" fill="#374151">Current</text>';
@@ -1659,6 +1911,7 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
       earmark: document.getElementById("panel-earmark"),
       scatter: document.getElementById("panel-scatter"),
       alloc: document.getElementById("panel-alloc"),
+      edugap: document.getElementById("panel-edugap"),
     };
 
     function switchTab(tabId) {
@@ -1674,6 +1927,10 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
 
     tabButtons.forEach(btn => {
       btn.addEventListener("click", function() { switchTab(this.dataset.tab); });
+    });
+
+    document.querySelectorAll("[data-goto]").forEach(function(b){
+      b.addEventListener("click", function(){ switchTab(this.dataset.goto); window.scrollTo(0,0); });
     });
 
     // Metric toggle buttons
@@ -1703,6 +1960,69 @@ body,.font-sans{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hel
     window.addEventListener('resize', syncHeaderPadding);
     setTimeout(syncHeaderPadding, 300);
   
+
+    // ── EDUCATION GAP BAR CHART ──────────────────────────────────────────────
+    (function() {
+      var eduData = [
+        { parish: "Westmoreland", damaged: 129, committed: 10, completed: 1 },
+        { parish: "Hanover",      damaged:  36, committed:  6, completed: 0 },
+        { parish: "St. Elizabeth",damaged:  53, committed:  8, completed: 4 },
+        { parish: "Trelawny",     damaged:  58, committed:  2, completed: 0 },
+        { parish: "St. James",    damaged: 106, committed:  1, completed: 1 }
+      ];
+      var svg = document.getElementById("edu-bar-svg");
+      if (!svg) return;
+      var W = 760, H = 320, padL = 130, padR = 20, padT = 20, padB = 60;
+      var chartW = W - padL - padR;
+      var chartH = H - padT - padB;
+      var maxVal = 140;
+      var groups = eduData.length;
+      var groupW = chartW / groups;
+      var barW = groupW * 0.22;
+      var gap   = groupW * 0.05;
+      var svgNS = "http://www.w3.org/2000/svg";
+      function el(tag, attrs, text) {
+        var e = document.createElementNS(svgNS, tag);
+        for (var k in attrs) e.setAttribute(k, attrs[k]);
+        if (text !== undefined) e.textContent = text;
+        return e;
+      }
+      // Y grid lines
+      [0, 25, 50, 75, 100, 125].forEach(function(v) {
+        var y = padT + chartH - (v / maxVal) * chartH;
+        svg.appendChild(el("line", { x1: padL, y1: y, x2: W - padR, y2: y, stroke: "#e2e8f0", "stroke-width": 1 }));
+        svg.appendChild(el("text", { x: padL - 6, y: y + 4, "text-anchor": "end", "font-size": 10, fill: "#94a3b8" }, v));
+      });
+      // Bars
+      eduData.forEach(function(d, i) {
+        var gx = padL + i * groupW + groupW * 0.1;
+        // Damaged bar
+        var hD = (d.damaged / maxVal) * chartH;
+        svg.appendChild(el("rect", { x: gx, y: padT + chartH - hD, width: barW, height: hD, fill: "#fca5a5", rx: 2 }));
+        svg.appendChild(el("text", { x: gx + barW/2, y: padT + chartH - hD - 4, "text-anchor": "middle", "font-size": 9, fill: "#b91c1c", "font-weight": "bold" }, d.damaged));
+        // Committed bar
+        var hC = (d.committed / maxVal) * chartH;
+        svg.appendChild(el("rect", { x: gx + barW + gap, y: padT + chartH - hC, width: barW, height: hC, fill: "#fdba74", rx: 2 }));
+        svg.appendChild(el("text", { x: gx + barW + gap + barW/2, y: padT + chartH - hC - 4, "text-anchor": "middle", "font-size": 9, fill: "#c2410c", "font-weight": "bold" }, d.committed));
+        // Completed bar
+        var hK = Math.max((d.completed / maxVal) * chartH, 2);
+        svg.appendChild(el("rect", { x: gx + (barW + gap)*2, y: padT + chartH - hK, width: barW, height: hK, fill: "#86efac", rx: 2 }));
+        if (d.completed > 0) svg.appendChild(el("text", { x: gx + (barW+gap)*2 + barW/2, y: padT + chartH - hK - 4, "text-anchor": "middle", "font-size": 9, fill: "#15803d", "font-weight": "bold" }, d.completed));
+        // Parish label
+        var labelX = gx + (barW + gap) * 1.5;
+        svg.appendChild(el("text", { x: labelX, y: padT + chartH + 20, "text-anchor": "middle", "font-size": 10, fill: "#374151", "font-weight": "600" }, d.parish.replace("St. ", "St. ")));
+        // % unaddressed label
+        var pct = Math.round(((d.damaged - d.committed) / d.damaged) * 100);
+        svg.appendChild(el("text", { x: labelX, y: padT + chartH + 34, "text-anchor": "middle", "font-size": 9, fill: "#b91c1c" }, pct + "% unaddressed"));
+      });
+      // Axes
+      svg.appendChild(el("line", { x1: padL, y1: padT, x2: padL, y2: padT + chartH, stroke: "#cbd5e1", "stroke-width": 1 }));
+      svg.appendChild(el("line", { x1: padL, y1: padT + chartH, x2: W - padR, y2: padT + chartH, stroke: "#cbd5e1", "stroke-width": 1 }));
+      // Y-axis label
+      var yLbl = el("text", { x: 12, y: padT + chartH/2, "text-anchor": "middle", "font-size": 10, fill: "#64748b", transform: "rotate(-90,12," + (padT + chartH/2) + ")" }, "Number of ECIs");
+      svg.appendChild(yLbl);
+    })();
+
   });
 </script>
 </body>
